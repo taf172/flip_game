@@ -26,21 +26,53 @@ board:constrainTiles()
 keyHud.x = board.x
 keyHud.y = board.y - keyHud.height - 10
 
-local function newPuzzle()
-    local puzzle = Puzzle:new(grid)
+--[[
+local function setTutorial()
+    board.width = 200
+    board.height = 200
+    board:constrain()
+    board:spawnTiles()
+    board:constrainTiles()
+    keyHud.x = board.x
+    keyHud.y = board.y - keyHud.height - 10
+
+    local puzzle = {
+        keys = {4},
+        locks = {4},
+        start = 3,
+        solution = {3, 1, 2, 4}
+    }
     local startTile = board:setPuzzle(puzzle)
     player:setStart(startTile, puzzle.keys)
     currentPosition = puzzle.start
 end
+setTutorial()
+--]]
 
+---[[
+local function newPuzzle()
+    board.width = 400
+    board.height = 400
+    board:constrain()
+    board:spawnTiles()
+    board:constrainTiles()
+
+    local puzzle = Puzzle:new(grid)
+    local startTile = board:setPuzzle(puzzle)
+    player:setStart(startTile, puzzle.keys)
+    currentPosition = puzzle.start
+    keyHud.x = board.x
+    keyHud.y = board.y - keyHud.height - 10
+end
 newPuzzle()
+--]]
 
 function love.draw()
     board:draw()
     player:draw()
     keyHud:draw()
 
-    love.graphics.print(#player.trail)
+    --love.graphics.print(#player.trail)
 end
 
 function love.update(dt)

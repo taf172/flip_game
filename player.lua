@@ -81,12 +81,11 @@ end
 
 function Player:drawTrail()
     if #self.trail <= 1 then return nil end
-    love.graphics.setLineWidth(6)
     love.graphics.setColor(self.tile.color)
     for i = 2, #self.trail do
         local t1 = self.trail[i]
         local t2 = self.trail[i - 1]
-        love.graphics.line(t1.x, t1.y, t2.x, t2.y)
+        t2:drawConnector(t1)
     end
 end
 

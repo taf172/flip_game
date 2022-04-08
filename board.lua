@@ -13,7 +13,7 @@ function Board:new(grid)
     board.height = 400
 
     board.tiles = {}
-    board.spacing = 8
+    board.spacing = 10
 
     return board
 end

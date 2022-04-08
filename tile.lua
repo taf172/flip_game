@@ -15,6 +15,7 @@ function Tile:new(x, y)
     tile.width = 64
     tile.height = 64
     tile.color = grey
+    tile.roundness = 8
 
     tile.textColor = {1, 1, 1}
     tile.font = love.graphics.getFont()
@@ -40,11 +41,19 @@ local function getScale(image, width, height)
     return width/image:getWidth(), height/image:getHeight()
 end
 
+function Tile:drawConnector(tile)
+    local x = math.min(self.x, tile.x)
+    local y = math.min(self.y, tile.y)
+    local width = math.abs(self.x - tile.x) + self.width
+    local height = math.abs(self.y - tile.y) + self.height
+    love.graphics.rectangle('fill', x - self.width/2, y - self.height/2, width, height, self.roundness)
+end
+
 function Tile:draw()
     if not self.active then return end
     love.graphics.setColor(self.color)
     if self.locked then love.graphics.setColor{0.25, 0.25, 0.25} end
-    love.graphics.rectangle('fill', self.x - self.width/2, self.y - self.height/2, self.width, self.height)
+    love.graphics.rectangle('fill', self.x - self.width/2, self.y - self.height/2, self.width, self.height, self.roundness)
 
     love.graphics.setColor(self.textColor)
     if self.text then
