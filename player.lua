@@ -14,7 +14,7 @@ function Player:new(x, y)
     player.value = 0
     player.keys = {}
 
-    player.font = love.graphics.getFont()
+    player.font = res.fonts.bigFont
     player.textColor = {1, 1, 1}
     return player
 end
@@ -23,12 +23,14 @@ function Player:setStart(tile, keys)
     self.value = 0
     self.keys = keys
     self.trail = {}
+    self.tile.width = tile.width
+    self.tile.height = tile.height
     self:moveForward(tile)
 end
 
 function Player:hasKey()
     for _, key in ipairs(self.keys) do
-        if key == self.value then return true end
+        if key == self.value + 1 then return true end
     end
     return false
 end
@@ -62,11 +64,11 @@ function Player:inputTile(tile)
 end
 
 function Player:moveForward(tile)
+    tile:deactivate()
     table.insert(self.trail, tile)
     self.tile.x = tile.x
     self.tile.y = tile.y
     self.value = self.value + 1
-    tile:deactivate()
 end
 
 function Player:moveBack()

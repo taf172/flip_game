@@ -9,14 +9,14 @@ function KeyHud:new(player)
     hud.icon = res.images.keyIcon
     hud.width = 125
     hud.height = 50
-    hud.spacing = 8
+    hud.spacing = 16
     hud.x = 0
     hud.y = 0
     hud.player = player
     hud.color = res.colors.keyColor
     hud.darkColor = {0.2, 0.2, 0.2}
     hud.textColor = {1, 1, 1}
-
+    hud.font = res.fonts.bigFont
     return hud
 end
 
@@ -34,13 +34,18 @@ function KeyHud:draw()
     love.graphics.setColor(self.color)
     love.graphics.draw(self.icon, self.x, self.y, 0, sw, sh)
 
-    for i, key in ipairs(self.player.keys) do
+    -- Draw numbers
+    local y = self.y + (self.height - self.font:getHeight())/2
+    local x = self.x + self.height + self.spacing
+    love.graphics.setFont(self.font)
+    for _, key in ipairs(self.player.keys) do
         if key > self.player.value then
             love.graphics.setColor(self.textColor)
         else
             love.graphics.setColor(self.darkColor)
         end
-        love.graphics.print(key, self.x + self.height*1.25 + (i - 1)*40, self.y + 4)
+        love.graphics.print(key, x, y)
+        x = x + self.font:getWidth(key) + self.spacing
     end
 end
 
