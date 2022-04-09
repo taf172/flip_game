@@ -22,7 +22,7 @@ function KeyHud:new(player)
 end
 
 function KeyHud:constrain(obj)
-    self.x = (love.graphics.getWidth() - self.width)/2
+    self.x = obj.x
     self.y = obj.y - self.height - 25
 end
 

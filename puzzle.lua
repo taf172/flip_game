@@ -65,7 +65,7 @@ function Puzzle:new(grid)
     self.__index = self
 
     local puzzle = setmetatable({}, Puzzle)
-    puzzle.solution = genPolymer(grid, 1000)
+    puzzle.solution = genPolymer(grid, 10000)
     puzzle:load()
     return puzzle
 end
@@ -74,6 +74,7 @@ function Puzzle:load()
     self.start = self.solution[1]
     self.keys = {}
     self.locks = {}
+    --[[
     local rng = {}
     for i = 1, math.random(3, 6) do
         local rand = math.random(2, #self.solution - 1)
@@ -85,6 +86,41 @@ function Puzzle:load()
     end
     table.insert(self.keys, #self.solution)
     table.sort(self.keys)
+    for _, key in pairs(self.keys) do
+        table.insert(self.locks, self.solution[key])
+    end
+    --]]
+    self:genKeys()
+    self:setLocks()
+end
+
+local function gauss (mean, variance)
+    local mean = mean or 0
+    local variance = variance or 1
+
+    local r = variance + 1
+    while r > variance or r < -variance do
+        r  = math.sqrt(-2 * variance * math.log(math.random()))
+        r =  r * math.cos(2 * math.pi * math.random())
+    end
+    return mean + r
+end
+
+function Puzzle:genKeys()
+    local n = #self.solution
+    local max = n/2.5
+    local current = 1
+
+    self.keys = {}
+    while current < n - max do
+        local rng = math.ceil(gauss(max/2, max/2))
+        current = current + rng
+        table.insert(self.keys, current)
+    end
+    table.insert(self.keys, n)
+end
+
+function Puzzle:setLocks()
     for _, key in pairs(self.keys) do
         table.insert(self.locks, self.solution[key])
     end
