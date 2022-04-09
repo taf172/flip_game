@@ -13,13 +13,16 @@ function Board:new(grid)
     board.height = 400
 
     board.tiles = {}
-    board.spacing = 10
+    board.tileSize = 64
+    board.spacing = 6
 
     return board
 end
 
 function Board:constrain()
-    self.tileSize = math.min(self.width/self.grid.cols, self.height/self.grid.rows) - self.spacing
+    --self.tileSize = math.min(self.width/self.grid.cols, self.height/self.grid.rows) - self.spacing
+    self.width = self.grid.cols*(self.tileSize + self.spacing) - self.spacing/2
+    self.height = self.grid.rows*(self.tileSize + self.spacing) - self.spacing/2
     self.x = (love.graphics.getWidth() - self.width)/2
     self.y = (love.graphics.getHeight() - self.height)/2
 end

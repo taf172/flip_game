@@ -8,14 +8,14 @@ function Player:new(x, y)
     self.__index = self
 
     player.tile = Tile:new()
-    player.tile.color = res.colors.playerColor
+    player.tile.color = res.colors.primary
 
     player.trail = {}
     player.value = 0
     player.keys = {}
 
     player.font = res.fonts.bigFont
-    player.textColor = {1, 1, 1}
+    player.textColor = res.colors.lightShade
     return player
 end
 
@@ -43,23 +43,30 @@ function Player:inputTile(tile)
         return true
     end
 
-    if tile.active and tile.locked then
+    if not tile.active then
+        return false
+    end
+
+    if tile.locked then
         if self:hasKey() then
+            -- Unlock tile
             self:moveForward(tile)
             return true
         else
+            -- Locked tile error
+            res.audio.blockedSFX:play()
             return false
         end
     end
 
-    if tile.active then
-        self:moveForward(tile)
-        return true
-    end
-
-    if not tile.active then
+    if self:hasKey() then
+        -- Key but no lock error
+        res.audio.keychimeSFX:play()
         return false
     end
+
+    self:moveForward(tile)
+    return true
 
 end
 
@@ -69,6 +76,8 @@ function Player:moveForward(tile)
     self.tile.x = tile.x
     self.tile.y = tile.y
     self.value = self.value + 1
+    res.audio.moveSFX:play()
+    if self:hasKey() then res.audio.keychimeSFX:play() end
 end
 
 function Player:moveBack()
@@ -77,6 +86,7 @@ function Player:moveBack()
     self.tile.x = last.x
     self.tile.y = last.y
     self.value = self.value - 1
+    res.audio.moveSFX:play()
 end
 
 function Player:drawTrail()
@@ -94,7 +104,6 @@ local function getScale(image, width, height)
 end
 
 function Player:draw()
-    self:drawTrail()
     self.tile:draw()
     love.graphics.setColor{1, 1, 1}
 

@@ -13,15 +13,17 @@ function KeyHud:new(player)
     hud.x = 0
     hud.y = 0
     hud.player = player
-    hud.color = res.colors.keyColor
-    hud.darkColor = {0.2, 0.2, 0.2}
-    hud.textColor = {1, 1, 1}
+
+    hud.color = res.colors.primary
+    hud.darkColor = res.colors.darkShade
     hud.font = res.fonts.bigFont
+
     return hud
 end
 
-function KeyHud:constrain()
-
+function KeyHud:constrain(obj)
+    self.x = (love.graphics.getWidth() - self.width)/2
+    self.y = obj.y - self.height - 25
 end
 
 local function getScale(image, width, height)
@@ -38,13 +40,14 @@ function KeyHud:draw()
     local y = self.y + (self.height - self.font:getHeight())/2
     local x = self.x + self.height + self.spacing
     love.graphics.setFont(self.font)
+
     for _, key in ipairs(self.player.keys) do
         if key > self.player.value then
-            love.graphics.setColor(self.textColor)
+            love.graphics.setColor(self.color)
         else
             love.graphics.setColor(self.darkColor)
         end
-        love.graphics.print(key, x, y)
+        love.graphics.print(key - 1, x, y)
         x = x + self.font:getWidth(key) + self.spacing
     end
 end

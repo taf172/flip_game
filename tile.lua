@@ -2,10 +2,6 @@ local res = require 'res'
 
 local Tile = {}
 
-local grey = {0.75, 0.75, 0.75}
-local red = {1, 0.25, 0.25}
-local green = {0.25, 1, 0.25}
-
 function Tile:new(x, y)
     local tile = setmetatable({}, self)
     self.__index = self
@@ -14,10 +10,15 @@ function Tile:new(x, y)
     tile.y = y or 0
     tile.width = 64
     tile.height = 64
-    tile.color = grey
-    tile.roundness = 8
+    tile.roundness = 6
 
-    tile.textColor = {1, 1, 1}
+    tile.openIcon = res.images.openLockIcon
+    tile.lockedIcon = res.images.lockIcon
+
+    tile.color = res.colors.darkShade
+    tile.textColor = res.colors.lightShade
+    tile.lockedColor = res.colors.darkAccent
+
     tile.font = love.graphics.getFont()
 
     tile:activate()
@@ -25,15 +26,26 @@ function Tile:new(x, y)
 end
 
 function Tile:setLock()
-
+    self.color = self.lockedColor
+    self.icon = self.lockedIcon
     self.locked = true
 end
 
 function Tile:activate()
+    if self.locked then
+        res.audio.lockSFX:play()
+        self.icon = self.lockedIcon
+        self.textColor = res.colors.lightShade
+    end
     self.active = true
 end
 
 function Tile:deactivate()
+    if self.locked then
+        res.audio.unlockSFX:play()
+        self.icon = self.openIcon
+        self.textColor = res.colors.darkShade
+    end
     self.active = false
 end
 
@@ -46,26 +58,26 @@ function Tile:drawConnector(tile)
     local y = math.min(self.y, tile.y)
     local width = math.abs(self.x - tile.x) + self.width
     local height = math.abs(self.y - tile.y) + self.height
-    love.graphics.rectangle('fill', x - self.width/2, y - self.height/2, width, height, self.roundness)
+    love.graphics.rectangle(
+        'fill', x - self.width/2, y - self.height/2, width, height, self.roundness
+    )
 end
 
 function Tile:draw()
-    if not self.active then return end
-    love.graphics.setColor(self.color)
-    if self.locked then love.graphics.setColor{0.25, 0.25, 0.25} end
-    love.graphics.rectangle('fill', self.x - self.width/2, self.y - self.height/2, self.width, self.height, self.roundness)
-
-    love.graphics.setColor(self.textColor)
-    if self.text then
-        love.graphics.printf(
-            self.text, self.x, self.y + self.height/2 - self.font:getHeight()/2, self.width, 'center'
+    -- Draw rect
+    if self.active then
+        love.graphics.setColor(self.color)
+        love.graphics.rectangle(
+            'fill', self.x - self.width/2, self.y - self.height/2, self.width, self.height, self.roundness
         )
     end
 
-    if self.locked then
+    -- Draw icon
+    if self.icon then
         local iw = self.width - 20
-        local sw, sh = getScale(res.images.lockIcon, iw, iw)
-        love.graphics.draw(res.images.lockIcon, self.x - iw/2, self.y - iw/2, 0, sw, sh)
+        local sw, sh = getScale(self.icon, iw, iw)
+        love.graphics.setColor(self.textColor)
+        love.graphics.draw(self.icon, self.x - iw/2, self.y - iw/2, 0, sw, sh)
     end
 end
 

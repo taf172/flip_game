@@ -1,7 +1,7 @@
 -- assets
 -- key: https://thenounproject.com/icon/key-3407510/
 -- lock: https://thenounproject.com/icon/lock-4740763/
-
+-- audo: kenny assets, RCP tones
 
 local res = require 'res'
 
@@ -12,9 +12,11 @@ local Player = require 'player'
 local KeyHud = require 'keyHud'
 
 love.window.setMode(800, 600, {vsync = false, msaa = 8, })
+love.graphics.setBackgroundColor(res.colors.lightShade)
+love.audio.setVolume(0.25)
 local ww, wh = love.graphics.getDimensions()
 
-local grid = Grid:new(5, 5)
+local grid = Grid:new(2, 2)
 local board = Board:new(grid)
 local player = Player:new()
 local keyHud = KeyHud:new(player)
@@ -23,18 +25,12 @@ local currentPosition = 0
 board:constrain()
 board:spawnTiles()
 board:constrainTiles()
-keyHud.x = board.x
-keyHud.y = board.y - keyHud.height - 10
 
---[[
+keyHud:constrain(board)
+
+---[[
 local function setTutorial()
-    board.width = 200
-    board.height = 200
     board:constrain()
-    board:spawnTiles()
-    board:constrainTiles()
-    keyHud.x = board.x
-    keyHud.y = board.y - keyHud.height - 10
 
     local puzzle = {
         keys = {4},
@@ -51,8 +47,8 @@ setTutorial()
 
 ---[[
 local function newPuzzle()
-    board.width = 400
-    board.height = 400
+    grid = grid:new(5, 5)
+    board = Board:new(grid)
     board:constrain()
     board:spawnTiles()
     board:constrainTiles()
@@ -64,10 +60,10 @@ local function newPuzzle()
     keyHud.x = board.x
     keyHud.y = board.y - keyHud.height - 10
 end
-newPuzzle()
 --]]
 
 function love.draw()
+    player:drawTrail()
     board:draw()
     player:draw()
     keyHud:draw()
