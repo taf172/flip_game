@@ -59,41 +59,6 @@ local function genPolymer(grid, iter)
     return poly
 end
 
-local Puzzle = {}
-
-function Puzzle:new(grid)
-    self.__index = self
-
-    local puzzle = setmetatable({}, Puzzle)
-    puzzle.solution = genPolymer(grid, 10000)
-    puzzle:load()
-    return puzzle
-end
-
-function Puzzle:load()
-    self.start = self.solution[1]
-    self.keys = {}
-    self.locks = {}
-    --[[
-    local rng = {}
-    for i = 1, math.random(3, 6) do
-        local rand = math.random(2, #self.solution - 1)
-        while rng[rand] do
-            rand = math.random(2, #self.solution - 1)
-        end
-        rng[rand] = true
-        table.insert(self.keys, rand)
-    end
-    table.insert(self.keys, #self.solution)
-    table.sort(self.keys)
-    for _, key in pairs(self.keys) do
-        table.insert(self.locks, self.solution[key])
-    end
-    --]]
-    self:genKeys()
-    self:setLocks()
-end
-
 local function gauss (mean, variance)
     local mean = mean or 0
     local variance = variance or 1
@@ -104,6 +69,34 @@ local function gauss (mean, variance)
         r =  r * math.cos(2 * math.pi * math.random())
     end
     return mean + r
+end
+
+local Puzzle = {}
+function Puzzle:new(grid, seed)
+    self.__index = self
+
+    local puzzle = setmetatable({}, Puzzle)
+    puzzle.seed = seed or 0
+    puzzle.solution = genPolymer(grid, 10000)
+    puzzle:load()
+    return puzzle
+end
+
+function Puzzle:load()
+    self.start = self.solution[1]
+    self.keys = {}
+    self.locks = {}
+    self:genKeys()
+    self:setLocks()
+end
+
+function Puzzle:getNorm()
+    math.randomseed(self.seed)
+
+    for i = 2, #self.solution do
+    end
+
+    return self
 end
 
 function Puzzle:genKeys()

@@ -103,6 +103,13 @@ local function getScale(image, width, height)
     return width/image:getWidth(), height/image:getHeight()
 end
 
+function Player:smallVal()
+    for _, key in ipairs(self.keys) do
+        if key - self.value > 0 then return key - self.value end
+    end
+    return 0
+end
+
 function Player:draw()
     self.tile:draw()
     love.graphics.setColor{1, 1, 1}
@@ -110,13 +117,13 @@ function Player:draw()
     love.graphics.setFont(self.font)
     love.graphics.setColor(self.textColor)
 
-    if self:hasKey() then
+    if self:hasKey() and false then
         local iw = self.tile.width - 20
         local sw, sh = getScale(res.images.keyIcon, iw, iw)
         love.graphics.draw(res.images.keyIcon, self.tile.x - iw/2, self.tile.y - iw/2, 0, sw, sh)
     else
         love.graphics.printf(
-            self.value, self.tile.x - self.tile.width/2, self.tile.y - self.font:getHeight()/2, self.tile.width, 'center'
+            self:smallVal(), self.tile.x - self.tile.width/2, self.tile.y - self.font:getHeight()/2, self.tile.width, 'center'
         )
     end
 

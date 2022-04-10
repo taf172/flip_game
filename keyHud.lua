@@ -41,14 +41,15 @@ function KeyHud:draw()
     local x = self.x + self.height + self.spacing
     love.graphics.setFont(self.font)
 
-    for _, key in ipairs(self.player.keys) do
+    for i, key in ipairs(self.player.keys) do
         if key > self.player.value then
             love.graphics.setColor(self.color)
         else
             love.graphics.setColor(self.darkColor)
         end
-        love.graphics.print(key - 1, x, y)
-        x = x + self.font:getWidth(key) + self.spacing
+        local prev = self.player.keys[i - 1] or 1
+        love.graphics.print(key - prev, x, y)
+        x = x + self.font:getWidth(key - prev) + self.spacing
     end
 end
 
