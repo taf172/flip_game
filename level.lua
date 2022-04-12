@@ -10,21 +10,25 @@ function Level:new(size, seed)
     local level = setmetatable({}, self)
     level.size = size
     level.number = seed
-
-    level.grid = Grid:new(5, 5)
-    level.puzzle = Puzzle:new(self.grid, seed)
-    level.board = Board:new(self.grid)
+    level.grid = Grid:new(size, size)
+    level.puzzle = Puzzle:new(level.grid, seed)
+    level.board = Board:new(level.grid)
     return level
 end
 
 function Level:load()
+    self.board:constrain()
     self.board:spawnTiles()
+    self.board:placeTiles()
 end
 
 function Level:undo()
 end
 
 function Level:reset()
+    self.board:spawnTiles()
+    self.board:placeTiles()
 end
+
 
 return Level

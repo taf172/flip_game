@@ -2,11 +2,11 @@ local res = require 'res'
 local Button = require 'ui/button'
 local MenuBar = require 'ui/menuBar'
 
-local barRatio = 1/15
 local ui = {
     font = res.fonts.big,
     fontHeight = res.fonts.big:getHeight(),
     levelText = '3 - 12',
+    barRatio = 1/15
 }
 
 ui.buttons = {
@@ -15,42 +15,55 @@ ui.buttons = {
     menuButton = Button:new(res.icons.menu),
     resetButton = Button:new(res.icons.reset),
     undoButton = Button:new(res.icons.undo),
+    levelSelectButton = Button:new(res.icons.grid),
+    settingsButton = Button:new(res.icons.settings),
+    shopButton = Button:new(res.icons.cart),
 }
 
-local levelMenuBar = MenuBar:new()
-levelMenuBar.spacing = 64*3
-levelMenuBar:constrain('top', barRatio)
-levelMenuBar:add(ui.buttons.backButton)
-levelMenuBar:add(ui.buttons.nextButton)
+ui.buttons.playButton = Button:new()
+ui.buttons.playButton.showOutline = true
+ui.buttons.playButton.text = 'play'
 
+ui.levelMenuBar = MenuBar:new()
+ui.levelMenuBar.spacing = 64*3
+ui.levelMenuBar:constrain('top', ui.barRatio)
+ui.levelMenuBar:add(ui.buttons.backButton)
+ui.levelMenuBar:add(ui.buttons.nextButton)
 
-local puzzleMenuBar = MenuBar:new()
-puzzleMenuBar:constrain('bottom', barRatio)
-puzzleMenuBar:add(ui.buttons.menuButton)
-puzzleMenuBar:add(ui.buttons.resetButton)
-puzzleMenuBar:add(ui.buttons.undoButton)
+ui.puzzleMenuBar = MenuBar:new()
+ui.puzzleMenuBar:constrain('bottom', ui.barRatio)
+ui.puzzleMenuBar:add(ui.buttons.menuButton)
+ui.puzzleMenuBar:add(ui.buttons.resetButton)
+ui.puzzleMenuBar:add(ui.buttons.undoButton)
+
+ui.mainMenuBar = MenuBar:new()
+ui.mainMenuBar.spacing = 32
+ui.mainMenuBar:add(ui.buttons.levelSelectButton)
+ui.mainMenuBar:add(ui.buttons.shopButton)
+ui.mainMenuBar:add(ui.buttons.settingsButton)
 
 function ui:constrain()
-    ui.width = love.graphics.getWidth()
-    ui.height = love.graphics.getHeight()
+    local ww, wh = love.graphics.getDimensions()
+
+    self.buttons.playButton.height = ww/3
+    self.buttons.playButton.width = ww/3
+    self.buttons.playButton.x = ww/2 - self.buttons.playButton.width/2
+    self.buttons.playButton.y = wh/2 - self.buttons.playButton.height/2
+
+    self.levelMenuBar:constrain('top', ui.barRatio)
+    self.puzzleMenuBar:constrain('bottom', ui.barRatio)
+    self.mainMenuBar:constrain('bottom', 0.15)
 end
 
-function ui:draw()
-    for _, button in pairs(self.buttons) do
-        button:draw()
-    end
-    love.graphics.setFont(self.font)
-    love.graphics.printf(
-        self.levelText, 
-        levelMenuBar.x, levelMenuBar.y + (levelMenuBar.height - self.fontHeight)/2 ,
-        self.width, 'center'
-    )
+function ui:getTitleHeight(font)
+    return self.levelMenuBar.y + (self.levelMenuBar.height- font:getHeight())/2
 end
 
-function ui:mousepressed(x, y)
-    for _, button in pairs(self.buttons) do
-        button:mousepressed(x, y)
-    end
+function ui:drawCenterLines()
+    local ww, wh = love.graphics.getDimensions()
+    love.graphics.setColor{0, 1, 0}
+    love.graphics.line(ww/2, 0, ww/2, wh)
+    love.graphics.line(0, wh/2, ww, wh/2)
 end
 
 return ui

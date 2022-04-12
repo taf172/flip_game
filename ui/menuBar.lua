@@ -73,4 +73,9 @@ function MenuBar:draw()
 
 end
 
+function MenuBar:drawDebug()
+    love.graphics.setColor(0, 1, 0)
+    love.graphics.rectangle('line', self.x, self.y, self.width, self.height)
+end
+
 return MenuBar

@@ -9,17 +9,32 @@ function Button:new(icon, callback)
     button.y = 0
     button.width = 100
     button.height = 50
+    button.color = res.colors.primary
     button.icon = icon
-    button.iconColor = res.colors.primary
     button.onPress = callback or function()end
     button.pressSound = res.audio.lock
+    button.font = res.fonts.big
+    button.roundness = 4
     return button
 end
 
 function Button:draw()
+    love.graphics.setColor(self.color)
+    if self.showOutline then
+        love.graphics.setLineWidth(4)
+        love.graphics.rectangle('line', self.x, self.y, self.width, self.height, self.roundness)
+    end
+
     if self.icon then
-        love.graphics.setColor(self.iconColor)
         love.graphics.draw(self.icon, self.x, self.y)
+    end
+
+    if self.text then
+        love.graphics.setFont(self.font)
+        love.graphics.printf(
+            self.text, self.x, self.y + self.height/2 - self.font:getHeight()/2,
+            self.width, 'center'
+        )
     end
 end
 

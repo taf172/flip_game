@@ -8,7 +8,10 @@ res.icons = {
     reset = love.graphics.newImage('res/icons/refresh.png'),
     back = love.graphics.newImage('res/icons/back.png'),
     forward = love.graphics.newImage('res/icons/forward.png'),
-    menu = love.graphics.newImage('res/icons/menu.png')
+    menu = love.graphics.newImage('res/icons/menu.png'),
+    settings = love.graphics.newImage('res/icons/settings.png'),
+    cart = love.graphics.newImage('res/icons/cart.png'),
+    grid = love.graphics.newImage('res/icons/grid.png'),
 }
 
 res.colors = {
@@ -20,6 +23,7 @@ res.colors = {
 }
 
 res.fonts = {
+    extraBig = love.graphics.newFont('res/Montserrat-Medium.ttf', 64),
     big = love.graphics.newFont('res/Montserrat-Medium.ttf', 42),
     small = love.graphics.newFont('res/Montserrat-Medium.ttf', 12),
 }

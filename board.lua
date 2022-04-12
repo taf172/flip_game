@@ -17,8 +17,6 @@ function Board:new(grid)
     board.headTiles = {}
     board.tileSize = 64
     board.spacing = 4
-    board:constrain()
-    board:spawnTiles()
 
     return board
 end
