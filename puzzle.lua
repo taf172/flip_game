@@ -53,7 +53,7 @@ end
 
 local function genPolymer(grid, iter)
     local poly = getPlow(grid)
-    for i = 1, 1000 do
+    for i = 1, iter do
         backbite(poly, grid)
     end
     return poly
@@ -76,18 +76,13 @@ function Puzzle:new(grid, seed)
     self.__index = self
 
     local puzzle = setmetatable({}, Puzzle)
+    puzzle.path = genPolymer(grid, 10000)
     puzzle.seed = seed or 0
-    puzzle.solution = genPolymer(grid, 10000)
-    puzzle:load()
-    return puzzle
-end
+    puzzle.positions = {}
+    puzzle.values = {}
+    puzzle:genPuzzle()
 
-function Puzzle:load()
-    self.start = self.solution[1]
-    self.keys = {}
-    self.locks = {}
-    self:genKeys()
-    self:setLocks()
+    return puzzle
 end
 
 function Puzzle:getNorm()
@@ -99,24 +94,22 @@ function Puzzle:getNorm()
     return self
 end
 
-function Puzzle:genKeys()
-    local n = #self.solution
-    local max = n/2.5
-    local current = 1
+function Puzzle:genPuzzle() -- FIX THIS LOL
+    local total = 1
+    local max = 5
 
-    self.keys = {}
-    while current < n - max do
-        local rng = math.ceil(gauss(max/2, max/2))
-        current = current + rng
-        table.insert(self.keys, current)
+    while total < #self.path - max do
+        local rng = math.random(max)
+        table.insert(self.positions, self.path[total])
+        table.insert(self.values, rng)
+        total = total + rng
     end
-    table.insert(self.keys, n)
+
+    self.positions = {1, 7, 9}
+    self.values = {2, 2, 4}
 end
 
-function Puzzle:setLocks()
-    for _, key in pairs(self.keys) do
-        table.insert(self.locks, self.solution[key])
-    end
-end
+
+
 
 return Puzzle

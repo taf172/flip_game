@@ -1,9 +1,14 @@
 local res = {}
 
-res.images = {
-    keyIcon = love.graphics.newImage('res/key.png'),
-    lockIcon = love.graphics.newImage('res/lock_closed.png'),
-    openLockIcon = love.graphics.newImage('res/lock_open.png')
+res.icons = {
+    key = love.graphics.newImage('res/icons/key.png'),
+    lock = love.graphics.newImage('res/icons/lock_closed.png'),
+    open = love.graphics.newImage('res/icons/lock_open.png'),
+    undo = love.graphics.newImage('res/icons/undo.png'),
+    reset = love.graphics.newImage('res/icons/refresh.png'),
+    back = love.graphics.newImage('res/icons/back.png'),
+    forward = love.graphics.newImage('res/icons/forward.png'),
+    menu = love.graphics.newImage('res/icons/menu.png')
 }
 
 res.colors = {
@@ -15,17 +20,17 @@ res.colors = {
 }
 
 res.fonts = {
-    bigFont = love.graphics.newFont('res/Montserrat-Medium.ttf', 42),
-    smallFont = love.graphics.newFont('res/Montserrat-Medium.ttf', 12),
+    big = love.graphics.newFont('res/Montserrat-Medium.ttf', 42),
+    small = love.graphics.newFont('res/Montserrat-Medium.ttf', 12),
 }
 
 res.audio = {
-    moveSFX = love.audio.newSource('res/slide.wav', 'static'),
-    unlockSFX = love.audio.newSource('res/unlock.wav', 'static'),
-    lockSFX = love.audio.newSource('res/lock.wav', 'static'),
-    blockedSFX = love.audio.newSource('res/blocked.wav', 'static'),
-    keychimeSFX = love.audio.newSource('res/key.ogg', 'static'),
-    sucessSFX = love.audio.newSource('res/success.ogg', 'static')
+    move = love.audio.newSource('res/sfx/slide.wav', 'static'),
+    unlock = love.audio.newSource('res/sfx/unlock.wav', 'static'),
+    lock = love.audio.newSource('res/sfx/lock.wav', 'static'),
+    blocked = love.audio.newSource('res/sfx/blocked.wav', 'static'),
+    keychime = love.audio.newSource('res/sfx/key.ogg', 'static'),
+    sucess = love.audio.newSource('res/sfx/success.ogg', 'static')
 }
 
 return res

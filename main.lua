@@ -3,44 +3,40 @@
 -- lock: https://thenounproject.com/icon/lock-4740763/
 -- audo: kenny assets, RCP tones
 
+love.window.setMode(480, 800, {vsync = false, msaa = 8, })
 local res = require 'res'
-local State = require 'state'
+local ui = require 'ui'
 
-love.window.setMode(800, 600, {vsync = false, msaa = 8, })
+local State = require 'state'
+local Level = require 'level'
+
+
 love.graphics.setBackgroundColor(res.colors.lightShade)
 love.audio.setVolume(0.25)
-local ww, wh = love.graphics.getDimensions()
+ui:constrain()
 
 local cheater = false
 local stateNo = 0
 local gameState = State:new()
-gameState:loadTutorial()
+gameState:load()
+
+local level = 1
+local function nextLevel()
+    level = level + 1
+    ui.levelText = 'No. '..level
+end
+ui.buttons.nextButton.onPress = nextLevel
 
 function love.draw()
     gameState:draw()
+    ui:draw()
 
-    if gameState:won() then
-        love.graphics.setColor(res.colors.primary)
-        if cheater then
-            love.graphics.printf(
-                'cheater >:(', 0, love.graphics.getHeight() - 125, love.graphics.getWidth(), 'center'
-            )
-        else
-            love.graphics.printf(
-                'you did it!\n< space >', 0, love.graphics.getHeight() - 125, love.graphics.getWidth(), 'center'
-            )
-        end
-    elseif gameState.tutorial then
-        love.graphics.printf(
-            'arrow keys to move', 0, love.graphics.getHeight() - 125, love.graphics.getWidth(), 'center'
-        )
-    else
-        love.graphics.print('space: reset', 0, love.graphics.getHeight() - 50)
-    end
-
-    if stateNo > 0 then
-        love.graphics.print('No. '..stateNo)
-    end
+    --[[ Draw centerlines
+    local ww, wh = love.graphics.getDimensions()
+    love.graphics.setColor{0, 1, 0}
+    love.graphics.line(ww/2, 0, ww/2, wh)
+    love.graphics.line(0, wh/2, ww, wh/2)
+    --]]
 end
 
 function love.update(dt)
@@ -84,4 +80,9 @@ function love.keypressed(key)
     if key == 'space' then newPuzzle() end
         if key == 's' then board:solve() end
     --]]
+end
+
+function love.mousepressed(x, y, button)
+    if not button == 1 then return end
+    ui:mousepressed(x, y)
 end
