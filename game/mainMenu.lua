@@ -13,9 +13,6 @@ mainMenu.buttons = {
     ui.buttons.levelSelectButton,
 }
 
-function mainMenu:load()
-end
-
 function mainMenu:draw()
     love.graphics.setColor(self.textColor)
     love.graphics.setFont(self.font)
@@ -25,9 +22,6 @@ function mainMenu:draw()
     for _, button in ipairs(self.buttons) do
         button:draw()
     end
-end
-
-function mainMenu:update()
 end
 
 function mainMenu:mousepressed(x, y)

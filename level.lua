@@ -28,6 +28,9 @@ function Level:load()
     self.head:push(self.board:getTile(self.startPosition))
 end
 
+function Level:input(dir)
+end
+
 function Level:undo()
 end
 
@@ -39,5 +42,14 @@ function Level:reset()
     self.head:push(self.board:getTile(self.startPosition))
 end
 
+function Level:draw()
+    self.head:drawStack()
+    self.board:draw()
+    self.head:draw()
+end
+
+function Level:update(dt)
+    self.head:update(dt)
+end
 
 return Level

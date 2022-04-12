@@ -6,7 +6,7 @@ local Level = require 'level'
 local inLevel = {}
 inLevel.font = res.fonts.big
 inLevel.textColor = res.colors.primary
-inLevel.title = 'No. '
+inLevel.title = 'No. 1'
 inLevel.titleHeight = love.graphics.getHeight()
 inLevel.buttons = {
     ui.buttons.backButton,
@@ -16,46 +16,16 @@ inLevel.buttons = {
     ui.buttons.menuButton,
 }
 
-inLevel.levelNo = 1
-
-local levels = {
-    Level:new(2, 1),
-    Level:new(3, 1),
-    Level:new(4, 1),
-    Level:new(5, 1),
-    Level:new(6, 1),
-}
-
-function inLevel:load()
-    self.level = levels[self.levelNo]
-    self.level:load()
-end
-
 function inLevel:draw()
     love.graphics.setColor(self.textColor)
     love.graphics.setFont(self.font)
     love.graphics.printf(
-        self.title..self.levelNo, 0, ui:getTitleHeight(self.font),
+        self.title, 0, ui:getTitleHeight(self.font),
         love.graphics.getWidth(), 'center'
     )
     for _, button in ipairs(self.buttons) do
         button:draw()
     end
-    self.level.head:drawStack()
-    self.level.board:draw()
-    self.level.head:draw()
-end
-
-function inLevel:reset()
-    self.level:reset()
-end
-
-function inLevel:undo()
-    self.level:undo()
-end
-
-function inLevel:update(dt)
-    self.level.head:update(dt)
 end
 
 function inLevel:mousepressed(x, y)
