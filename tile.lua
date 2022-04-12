@@ -13,10 +13,11 @@ function Tile:new(x, y)
     tile.height = 64
     tile.roundness = 2
 
-    tile.font = res.fonts.bigFont
+    tile.font = res.fonts.big
     tile.color = res.colors.darkShade
     tile.textColor = res.colors.lightShade
 
+    tile:activate()
     return tile
 end
 
@@ -36,7 +37,7 @@ function Tile:drawConnector(tile)
     local width = math.abs(self.x - tile.x) + self.width
     local height = math.abs(self.y - tile.y) + self.height
     love.graphics.rectangle(
-        'fill', x - self.width/2, y - self.height/2, width, height, self.roundness
+        'fill', x, y, width, height, self.roundness
     )
 end
 
@@ -51,7 +52,8 @@ function Tile:draw()
         love.graphics.setFont(self.font)
         love.graphics.setColor(self.textColor)
         love.graphics.printf(
-            self.text, self.x, self.y - self.font:getHeight()/2, self.width, 'center'
+            self.text, self.x, self.y + (self.height - self.font:getHeight())/2,
+            self.width, 'center'
         )
     end
 end

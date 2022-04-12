@@ -36,6 +36,13 @@ function love.load()
     ui.buttons.menuButton.onPress = function ()
         game:switch(game.mainMenu)
     end
+    ui.buttons.resetButton.onPress = function ()
+        game.inLevel:reset()
+    end
+    ui.buttons.undoButton.onPress = function ()
+        game.inLevel:undo()
+    end
+
 
     ui:constrain()
     game:load()

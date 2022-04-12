@@ -1,5 +1,4 @@
 local Tile = require 'tile'
-local HeadTile = require 'head'
 
 local Board = {}
 
@@ -56,11 +55,6 @@ function Board:placeTiles()
         tile.width = self.tileSize
         tile.height = self.tileSize
     end
-end
-
-function Board:setHeadTile(pos, val)
-    local tile = self:getTile(pos)
-    HeadTile:new(tile, val)
 end
 
 function Board:isClear()

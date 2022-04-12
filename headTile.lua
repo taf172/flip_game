@@ -3,20 +3,20 @@ local res = require 'res'
 local Tile = require 'tile'
 local HeadTile = Tile:new()
 
-function HeadTile:new(tile, max)
+function HeadTile:new()
     self.__index = self
 
-    local head = setmetatable(tile or Tile:new(), self)
+    local head = setmetatable(Tile:new(), self)
     head.color = res.colors.primary
-    head.max = max + 1
-    head.text = head.max - 1
+    head.text = 0
     head.stack = {}
+    head.render = true
 
     return head
 end
 
-function HeadTile:activate()
-    self.render = true
+function HeadTile:clearStack()
+    self.stack = {}
 end
 
 function HeadTile:input(tile)
@@ -24,12 +24,10 @@ function HeadTile:input(tile)
 
     if tile == self.stack[#self.stack - 1] then
         self:pop()
-        self.text = self.max - #self.stack
         return true
     end
 
     if self:push(tile) then
-        self.text = self.max - #self.stack
         return true
     end
 
@@ -37,7 +35,6 @@ function HeadTile:input(tile)
 end
 
 function HeadTile:push(tile)
-    if #self.stack >= self.max then return false end
     if not tile.active then return false end
 
     tile:deactivate()
@@ -62,9 +59,15 @@ function HeadTile:drawStack()
     end
 end
 
-function HeadTile:draw()
-    self:drawStack()
-    Tile.draw(self)
+function HeadTile:update(dt)
+    local top = self:top()
+    if top then
+        self.x = top.x
+        self.y = top.y
+        self.width = top.width
+        self.height = top.height
+    end
+    self.text = #self.stack
 end
 
 return HeadTile

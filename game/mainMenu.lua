@@ -27,6 +27,9 @@ function mainMenu:draw()
     end
 end
 
+function mainMenu:update()
+end
+
 function mainMenu:mousepressed(x, y)
     for _, button in ipairs(self.buttons) do
         button:mousepressed(x, y)

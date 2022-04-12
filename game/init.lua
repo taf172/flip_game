@@ -37,7 +37,8 @@ function Game:draw()
     self.currentState:draw()
 end
 
-function Game:update()
+function Game:update(dt)
+    self.currentState:update(dt)
 end
 
 function Game:mousepressed(x, y)

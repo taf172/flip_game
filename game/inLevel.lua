@@ -41,7 +41,21 @@ function inLevel:draw()
     for _, button in ipairs(self.buttons) do
         button:draw()
     end
+    self.level.head:drawStack()
     self.level.board:draw()
+    self.level.head:draw()
+end
+
+function inLevel:reset()
+    self.level:reset()
+end
+
+function inLevel:undo()
+    self.level:undo()
+end
+
+function inLevel:update(dt)
+    self.level.head:update(dt)
 end
 
 function inLevel:mousepressed(x, y)
