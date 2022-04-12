@@ -2,8 +2,8 @@ local res = {}
 
 res.icons = {
     key = love.graphics.newImage('res/icons/key.png'),
-    lock = love.graphics.newImage('res/icons/lock_closed.png'),
-    open = love.graphics.newImage('res/icons/lock_open.png'),
+    lockClosed = love.graphics.newImage('res/icons/lock_closed.png'),
+    lockOpen = love.graphics.newImage('res/icons/lock_open.png'),
     undo = love.graphics.newImage('res/icons/undo.png'),
     reset = love.graphics.newImage('res/icons/refresh.png'),
     back = love.graphics.newImage('res/icons/back.png'),
@@ -16,9 +16,8 @@ res.icons = {
 
 res.colors = {
     primary = {0, 0.38, 0.585},
-    lightAccent = {1, 1, 1},
+    accent = {0.822, 0.281, 0.364},
     lightShade = {0.953, 0.953, 0.882},
-    darkAccent = {0.822, 0.281, 0.364},
     darkShade = {0.729, 0.82, 0.812},
 }
 

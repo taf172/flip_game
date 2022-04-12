@@ -26,12 +26,10 @@ ui.buttons.playButton.text = 'play'
 
 ui.levelMenuBar = MenuBar:new()
 ui.levelMenuBar.spacing = 64*3
-ui.levelMenuBar:constrain('top', ui.barRatio)
 ui.levelMenuBar:add(ui.buttons.backButton)
 ui.levelMenuBar:add(ui.buttons.nextButton)
 
 ui.puzzleMenuBar = MenuBar:new()
-ui.puzzleMenuBar:constrain('bottom', ui.barRatio)
 ui.puzzleMenuBar:add(ui.buttons.menuButton)
 ui.puzzleMenuBar:add(ui.buttons.resetButton)
 ui.puzzleMenuBar:add(ui.buttons.undoButton)

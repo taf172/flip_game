@@ -21,7 +21,7 @@ function Board:new(grid)
 end
 
 function Board:constrain(widthRatio)
-    --self.tileSize = math.min(self.width/self.grid.cols, self.height/self.grid.rows) - self.spacing
+    self.tileSize = (love.graphics.getWidth() - self.spacing*5)/7
     self.width = self.grid.cols*(self.tileSize + self.spacing) - self.spacing
     self.height = self.grid.rows*(self.tileSize + self.spacing) - self.spacing
     self.x = (love.graphics.getWidth() - self.width)/2
@@ -54,6 +54,12 @@ function Board:placeTiles()
         tile.y = y
         tile.width = self.tileSize
         tile.height = self.tileSize
+    end
+end
+
+function Board:lockTiles(locks)
+    for _, lock in ipairs(locks) do
+        self.tiles[lock]:setLocked()
     end
 end
 

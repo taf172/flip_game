@@ -21,13 +21,26 @@ function Tile:new(x, y)
     return tile
 end
 
+function Tile:setLocked()
+    self.textColor = res.colors.lightShade
+    self.icon = res.icons.lockClosed
+    self.color = res.colors.accent
+    self.locked = true
+end
+
 function Tile:activate()
-    self.render = true
+    if self.locked then
+        self.textColor = res.colors.lightShade
+        self.icon = res.icons.lockClosed
+    end
     self.active = true
 end
 
 function Tile:deactivate()
-    self.render = false
+    if self.locked then
+        self.textColor = res.colors.darkShade
+        self.icon = res.icons.lockOpen
+    end
     self.active = false
 end
 
@@ -41,20 +54,29 @@ function Tile:drawConnector(tile)
     )
 end
 
+local function getScale(image, width, height)
+    return width/image:getWidth(), height/image:getHeight()
+end
+
 function Tile:draw()
-    if not self.render then return false end
+    if not self.active then return end
     love.graphics.setColor(self.color)
     love.graphics.rectangle(
         'fill', self.x, self.y, self.width, self.height, self.roundness
     )
 
+    love.graphics.setColor(self.textColor)
     if self.text then
         love.graphics.setFont(self.font)
-        love.graphics.setColor(self.textColor)
         love.graphics.printf(
             self.text, self.x, self.y + (self.height - self.font:getHeight())/2,
             self.width, 'center'
         )
+    end
+
+    if self.icon then
+        local sw, sh = getScale(self.icon, self.width, self.height)
+        love.graphics.draw(self.icon, self.x, self.y, 0, sw, sh)
     end
 end
 

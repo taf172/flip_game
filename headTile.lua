@@ -3,7 +3,7 @@ local res = require 'res'
 local Tile = require 'tile'
 local HeadTile = Tile:new()
 
-function HeadTile:new()
+function HeadTile:new(keys)
     self.__index = self
 
     local head = setmetatable(Tile:new(), self)
@@ -11,15 +11,22 @@ function HeadTile:new()
     head.text = 0
     head.stack = {}
     head.render = true
-
+    head.keys = keys or {}
     return head
+end
+
+function HeadTile:hasKey()
+    for _, key in ipairs(self.keys) do
+        if key == #self.stack + 1 then return true end
+    end
+    return false
 end
 
 function HeadTile:clearStack()
     self.stack = {}
 end
 
-function HeadTile:input(tile)
+function HeadTile:attemptMove(tile)
     if not tile then return false end
 
     if tile == self.stack[#self.stack - 1] then
@@ -27,7 +34,12 @@ function HeadTile:input(tile)
         return true
     end
 
-    if self:push(tile) then
+    if tile.locked and not self:hasKey() then
+        return false
+    end
+
+    if tile.active then
+        self:push(tile)
         return true
     end
 
@@ -35,16 +47,13 @@ function HeadTile:input(tile)
 end
 
 function HeadTile:push(tile)
-    if not tile.active then return false end
-
     tile:deactivate()
     table.insert(self.stack, tile)
-    return true
 end
 
 function HeadTile:pop()
     self:top():activate()
-    return table.remove(self.stack)
+    table.remove(self.stack)
 end
 
 function HeadTile:top()
@@ -67,7 +76,13 @@ function HeadTile:update(dt)
         self.width = top.width
         self.height = top.height
     end
-    self.text = #self.stack
+    if self:hasKey() then
+        self.text = nil
+        self.icon = res.icons.key
+    else
+        self.text = #self.stack
+        self.icon = nil
+    end
 end
 
 return HeadTile

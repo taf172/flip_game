@@ -78,35 +78,20 @@ function Puzzle:new(grid, seed)
     local puzzle = setmetatable({}, Puzzle)
     puzzle.path = genPolymer(grid, 10000)
     puzzle.seed = seed or 0
-    puzzle.positions = {}
-    puzzle.values = {}
+    puzzle.keys = {}
+    puzzle.locks = {}
     puzzle:genPuzzle()
-
     return puzzle
 end
 
-function Puzzle:getNorm()
-    math.randomseed(self.seed)
-
-    for i = 2, #self.solution do
-    end
-
-    return self
-end
 
 function Puzzle:genPuzzle() -- FIX THIS LOL
-    local total = 1
-    local max = 5
-
-    while total < #self.path - max do
-        local rng = math.random(max)
-        table.insert(self.positions, self.path[total])
-        table.insert(self.values, rng)
-        total = total + rng
+    local randPos = 1 + math.random(5)
+    while randPos < #self.path do
+        table.insert(self.keys, randPos)
+        table.insert(self.locks, self.path[randPos])
+        randPos = randPos + math.random(5)
     end
-
-    self.positions = {1, 7, 9}
-    self.values = {2, 2, 4}
 end
 
 

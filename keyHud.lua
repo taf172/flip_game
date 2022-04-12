@@ -2,28 +2,23 @@ local res = require 'res'
 
 local KeyHud = {}
 
-function KeyHud:new(player)
+function KeyHud:new(target)
     self.__index = self
 
     local hud = setmetatable({}, self)
-    hud.icon = res.images.keyIcon
+    hud.icon = res.icons.key
     hud.width = 125
     hud.height = 50
     hud.spacing = 16
     hud.x = 0
     hud.y = 0
-    hud.player = player
+    hud.target = target
 
     hud.color = res.colors.primary
     hud.darkColor = res.colors.darkShade
-    hud.font = res.fonts.bigFont
+    hud.font = res.fonts.big
 
     return hud
-end
-
-function KeyHud:constrain(obj)
-    self.x = obj.x
-    self.y = obj.y - self.height - 25
 end
 
 local function getScale(image, width, height)
@@ -41,15 +36,14 @@ function KeyHud:draw()
     local x = self.x + self.height + self.spacing
     love.graphics.setFont(self.font)
 
-    for i, key in ipairs(self.player.keys) do
-        if key > self.player.value then
+    for i, key in ipairs(self.target.keys) do
+        if key > #self.target.stack then
             love.graphics.setColor(self.color)
         else
             love.graphics.setColor(self.darkColor)
         end
-        local prev = self.player.keys[i - 1] or 1
-        love.graphics.print(key - prev, x, y)
-        x = x + self.font:getWidth(key - prev) + self.spacing
+        love.graphics.print(key, x, y)
+        x = x + self.font:getWidth(key) + self.spacing
     end
 end
 
