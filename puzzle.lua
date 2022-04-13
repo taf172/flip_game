@@ -84,13 +84,18 @@ function Puzzle:new(grid, seed)
     return puzzle
 end
 
+local function gaussian (mean, variance)
+    return  math.sqrt(-2 * variance * math.log(math.random())) *
+            math.cos(2 * math.pi * math.random()) + mean
+end
+
 
 function Puzzle:genPuzzle() -- FIX THIS LOL
-    local randPos = 1 + math.random(5)
+    local randPos = 1 + math.ceil(gaussian(#self.path/6, 2))
     while randPos < #self.path do
         table.insert(self.keys, randPos)
         table.insert(self.locks, self.path[randPos])
-        randPos = randPos + math.random(5)
+        randPos = randPos + math.ceil(gaussian(#self.path/6, 2))
     end
 end
 

@@ -31,7 +31,6 @@ function HeadTile:attemptMove(tile)
 
     if tile == self.stack[#self.stack - 1] then
         self:pop()
-        self.alpha = 0
         return true
     end
 
@@ -42,7 +41,6 @@ function HeadTile:attemptMove(tile)
 
     if tile.active then
         self:push(tile)
-        self.alpha = 0
         if not tile.locked and self:hasKey(#self.stack) then
             res.audio.keychime:play()
         else
@@ -73,12 +71,14 @@ function HeadTile:top()
 end
 
 function HeadTile:drawStack()
+    ---[[
     if #self.stack == 1 then return end
     love.graphics.setColor(self.color)
     for i = 2, #self.stack do
         self.stack[i]:drawConnector(self.stack[i -1])
     end
     self:top():drawConnector(self)
+    --]]
 end
 
 function HeadTile:update(dt)
@@ -86,8 +86,8 @@ function HeadTile:update(dt)
     if top then
         self.x = top.x
         self.y = top.y
-        self.width = top.width
-        self.height = top.height
+        self.width = self.width + (top.width - self.width)*dt*10
+        self.height = self.width
     end
     if self:top() and self:top().locked then
         self.text = nil
@@ -102,11 +102,6 @@ function HeadTile:update(dt)
         self.active = true
     end
 
-    --[[
-    if self.alpha < 1 then
-        self.alpha = self.alpha + (1 - self.alpha)*dt
-    end
-    --]]
 end
 
 return HeadTile
