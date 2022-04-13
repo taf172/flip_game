@@ -9,10 +9,10 @@ levelSelectMenu.titleHeight = love.graphics.getHeight()*0.1
 levelSelectMenu.buttons = {
     ui.buttons.backButton,
     ui.buttons.nextButton,
+    ui.buttons.bigBackButton,
 }
 levelSelectMenu.bars = ui.levelSelectBars
 levelSelectMenu.page = 3
-levelSelectMenu.gridSizeBar = ui.gridSizeBar
 levelSelectMenu.completedLevels = {}
 
 function levelSelectMenu:load()
@@ -25,13 +25,16 @@ function levelSelectMenu:draw()
         self.title, 0, ui:getTitleHeight(self.font),
         love.graphics.getWidth(), 'center'
     )
-    for _, button in ipairs(self.buttons) do
-        button:draw()
+    if self.pageNo > 1 then
+        self.buttons[1]:draw()
+    end
+    if self.pageNo < 3 then
+        self.buttons[2]:draw()
     end
     for _, bar in ipairs(self.bars) do
         bar:draw()
     end
-    self.gridSizeBar:draw()
+    self.buttons[3]:draw()
 end
 
 function levelSelectMenu:loadPage(n)
@@ -58,9 +61,14 @@ function levelSelectMenu:onLevelSelect()
 end
 
 function levelSelectMenu:mousepressed(x, y)
-    for _, button in ipairs(self.buttons) do
-        button:mousepressed(x, y)
+    if self.pageNo > 1 then
+        self.buttons[1]:mousepressed(x, y)
     end
+    if self.pageNo < 3 then
+        self.buttons[2]:mousepressed(x, y)
+    end
+    self.buttons[3]:mousepressed(x, y)
+
     for _, bar in ipairs(self.bars) do
         bar:mousepressed(x, y)
     end

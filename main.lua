@@ -21,6 +21,8 @@ function love.load()
     ui.buttons.nextButton.onPress = function () game:next() end
     ui.buttons.resetButton.onPress = function () game.level:reset() end
     ui.buttons.undoButton.onPress = function () game.level:undo() end
+    ui.buttons.bigBackButton.onPress = function () game:toMainMenu() end
+
 
     ui:constrain()
     game:load()

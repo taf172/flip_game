@@ -6,7 +6,7 @@ local ui = {
     font = res.fonts.big,
     fontHeight = res.fonts.big:getHeight(),
     levelText = '3 - 12',
-    barRatio = 1/15
+    barRatio = 1/20
 }
 
 ui.buttons = {
@@ -20,7 +20,9 @@ ui.buttons = {
     shopButton = Button:new(res.icons.cart),
     gridSize4Button = Button:new(),
     gridSize5Button = Button:new(),
-    gridSize6Button = Button:new()
+    gridSize6Button = Button:new(),
+    tutorialButton = Button:new(),
+    bigBackButton = Button:new(),
 }
 
 ui.buttons.playButton = Button:new()
@@ -44,15 +46,20 @@ ui.mainMenuBar:add(ui.buttons.shopButton)
 ui.mainMenuBar:add(ui.buttons.settingsButton)
 
 ui.gridSizeBar = MenuBar:new()
+ui.gridSizeBar:add(ui.buttons.tutorialButton)
 ui.gridSizeBar:add(ui.buttons.gridSize4Button)
 ui.gridSizeBar:add(ui.buttons.gridSize5Button)
 ui.gridSizeBar:add(ui.buttons.gridSize6Button)
+
+ui.buttons.tutorialButton.text = 'T'
 ui.buttons.gridSize4Button.text = '4'
 ui.buttons.gridSize5Button.text = '5'
 ui.buttons.gridSize6Button.text = '6'
+ui.buttons.tutorialButton.showOutline = true
 ui.buttons.gridSize4Button.showOutline = true
 ui.buttons.gridSize5Button.showOutline = true
 ui.buttons.gridSize6Button.showOutline = true
+
 --[[
 ui.buttons.gridSize4Button.width = 128
 ui.buttons.gridSize5Button.width = 128
@@ -85,13 +92,20 @@ function ui:constrain()
     self.levelMenuBar.spacing = 64*3
     self.levelMenuBar:placeButtons()
 
+    self.buttons.bigBackButton.text = 'back'
+    self.buttons.bigBackButton.showOutline = true
+    self.buttons.bigBackButton.width = 64*2
+    self.buttons.bigBackButton.y = wh - wh*self.barRatio*3
+    self.buttons.bigBackButton.x = ww/2 - self.buttons.bigBackButton.width/2
+
+
     self.puzzleMenuBar:constrain('bottom', self.barRatio)
     self.mainMenuBar:constrain('bottom', 0.15)
-    self.gridSizeBar:constrain('top', self.barRatio*2.5)
+    self.gridSizeBar:constrain('bottom', self.barRatio*2.5)
 
     local top = self.levelSelectBars[1]
     for _, bar in ipairs(self.levelSelectBars) do
-        bar:constrain('top', self.barRatio*4.5)
+        bar:constrain('top', self.barRatio*4)
     end
     for i, bar in ipairs(self.levelSelectBars) do
         bar.y = top.y + (i - 1)*(top.height + top.spacing)
