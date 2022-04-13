@@ -11,7 +11,7 @@ local game = require 'game'
 function love.load()
     love.window.setMode(480, 800, {vsync = false, msaa = 8, })
     love.graphics.setBackgroundColor(res.colors.lightShade)
-    love.audio.setVolume(0.25)
+    love.audio.setVolume(0.05)
 
     -- Set UI buttons
     ui.buttons.playButton.onPress = function () game:startGame(); end

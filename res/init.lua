@@ -27,14 +27,28 @@ res.fonts = {
     small = love.graphics.newFont('res/Montserrat-Medium.ttf', 12),
 }
 
+love.audio.setEffect('compressor', {type = 'compressor', enable = true})
+local Sound = {}
+function Sound:new(name)
+    self.__index = self
+    local s = setmetatable({}, self)
+        s.source = love.audio.newSource('res/sfx/'..name, 'static')
+        s.source:setEffect('compressor')
+    return s
+end
+function Sound:play()
+    self.source:stop()
+    self.source:play()
+end
+
 res.audio = {
-    move = love.audio.newSource('res/sfx/slide.wav', 'static'),
-    unlock = love.audio.newSource('res/sfx/unlock.wav', 'static'),
-    lock = love.audio.newSource('res/sfx/lock.wav', 'static'),
-    blocked = love.audio.newSource('res/sfx/blocked.wav', 'static'),
-    keychime = love.audio.newSource('res/sfx/key.wav', 'static'),
-    success = love.audio.newSource('res/sfx/success.ogg', 'static'),
-    tap = love.audio.newSource('res/sfx/tap.wav', 'static'),
+    move = Sound:new('slide.wav'),
+    unlock = Sound:new('unlock.wav'),
+    lock = Sound:new('lock.wav'),
+    blocked = Sound:new('blocked.wav'),
+    keychime = Sound:new('key.wav'),
+    success = Sound:new('success.ogg'),
+    tap = Sound:new('tap.wav'),
 }
 
 return res
