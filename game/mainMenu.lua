@@ -16,8 +16,9 @@ mainMenu.buttons = {
 function mainMenu:draw()
     love.graphics.setColor(self.textColor)
     love.graphics.setFont(self.font)
-    love.graphics.printf(
-        self.title, 0, love.graphics.getHeight()*0.15, love.graphics.getWidth(), 'center'
+    love.graphics.draw(
+        res.images.title, (love.graphics.getWidth() - res.images.title:getWidth())/2,
+        love.graphics.getHeight()*0.15
     )
     for _, button in ipairs(self.buttons) do
         button:draw()

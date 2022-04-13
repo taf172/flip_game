@@ -14,6 +14,10 @@ res.icons = {
     grid = love.graphics.newImage('res/icons/grid.png'),
 }
 
+res.images = {
+    title = love.graphics.newImage('res/title.png')
+}
+
 res.colors = {
     primary = {0, 0.38, 0.585},
     accent = {0.822, 0.281, 0.364},
