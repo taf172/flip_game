@@ -89,16 +89,11 @@ end
 
 -- Love2D callbacks
 function Game:load()
+    res.audio.music:play()
     self.state = self.mainMenu
     self.level = self.levels[1]
     self.levelNo = 1
     self.state = self.mainMenu
-
-    ---[[ Debug stuff
-        self.levels[1].completed = true
-        self.levels[2].completed = true
-        self.levels[3].completed = true
-    --]]
 end
 
 function Game:draw()

@@ -37,7 +37,8 @@ function Sound:new(name)
     self.__index = self
     local s = setmetatable({}, self)
         s.source = love.audio.newSource('res/sfx/'..name, 'static')
-        s.source:setEffect('compressor')
+        s.source:setVolume(1)
+        --s.source:setEffect('compressor')
     return s
 end
 function Sound:play()
@@ -45,13 +46,22 @@ function Sound:play()
     self.source:play()
 end
 
+--Flotsam by Nul Tiel Records
+local music = love.audio.newSource('res/flotsam.mp3', 'static')
+music:setLooping(true)
+music:setVolume(0.1)
+
+local success = love.audio.newSource('res/sfx/success.wav', 'static')
+success:setVolume(0.25)
+
 res.audio = {
+    music = music,
     move = Sound:new('slide.wav'),
     unlock = Sound:new('unlock.wav'),
     lock = Sound:new('lock.wav'),
     blocked = Sound:new('blocked.wav'),
     keychime = Sound:new('key.wav'),
-    success = Sound:new('success.ogg'),
+    success = success,
     tap = Sound:new('tap.wav'),
 }
 

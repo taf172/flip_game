@@ -13,6 +13,7 @@ function Tile:new(x, y)
     tile.height = 64
     tile.roundness = 2
 
+    tile.alpha = 1
     tile.font = res.fonts.big
     tile.color = res.colors.darkShade
     tile.textColor = res.colors.lightShade
@@ -63,14 +64,15 @@ local function getScale(image, width, height)
 end
 
 function Tile:draw()
+
     if self.active then
-        love.graphics.setColor(self.color)
+        love.graphics.setColor(self.color[1], self.color[2], self.color[3], self.alpha)
         love.graphics.rectangle(
             'fill', self.x, self.y, self.width, self.height, self.roundness
         )
     end
 
-    love.graphics.setColor(self.textColor)
+    love.graphics.setColor(self.textColor, self.alpha)
     if self.text then
         love.graphics.setFont(self.font)
         love.graphics.printf(

@@ -31,6 +31,7 @@ function HeadTile:attemptMove(tile)
 
     if tile == self.stack[#self.stack - 1] then
         self:pop()
+        self.alpha = 0
         return true
     end
 
@@ -41,6 +42,7 @@ function HeadTile:attemptMove(tile)
 
     if tile.active then
         self:push(tile)
+        self.alpha = 0
         if not tile.locked and self:hasKey(#self.stack) then
             res.audio.keychime:play()
         else
@@ -76,6 +78,7 @@ function HeadTile:drawStack()
     for i = 2, #self.stack do
         self.stack[i]:drawConnector(self.stack[i -1])
     end
+    self:top():drawConnector(self)
 end
 
 function HeadTile:update(dt)
@@ -88,14 +91,22 @@ function HeadTile:update(dt)
     end
     if self:top() and self:top().locked then
         self.text = nil
-        self.icon = res.icons.lockOpen
+        self.icon = nil
+        self.active = false
     elseif self:hasKey(#self.stack) then
         self.text = nil
         self.icon = res.icons.key
     else
         self.text = #self.stack
         self.icon = nil
+        self.active = true
     end
+
+    --[[
+    if self.alpha < 1 then
+        self.alpha = self.alpha + (1 - self.alpha)*dt
+    end
+    --]]
 end
 
 return HeadTile
