@@ -47,6 +47,13 @@ function Board:getTile(n)
     return self.tiles[n]
 end
 
+function Board:getTilePosition(tile)
+    for i, t in ipairs(self.tiles) do
+        if t == tile then return i end
+    end
+    return nil
+end
+
 function Board:placeTiles()
     for i, tile in ipairs(self.tiles) do
         local x, y = self:getTileCords(i)

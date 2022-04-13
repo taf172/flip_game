@@ -35,11 +35,17 @@ function HeadTile:attemptMove(tile)
     end
 
     if tile.locked and not self:hasKey(#self.stack + 1) then
+        res.audio.blocked:play()
         return false
     end
 
     if tile.active then
         self:push(tile)
+        if not tile.locked and self:hasKey(#self.stack) then
+            res.audio.keychime:play()
+        else
+            res.audio.move:play()
+        end
         return true
     end
 

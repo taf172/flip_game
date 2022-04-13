@@ -32,8 +32,9 @@ res.audio = {
     unlock = love.audio.newSource('res/sfx/unlock.wav', 'static'),
     lock = love.audio.newSource('res/sfx/lock.wav', 'static'),
     blocked = love.audio.newSource('res/sfx/blocked.wav', 'static'),
-    keychime = love.audio.newSource('res/sfx/key.ogg', 'static'),
-    success = love.audio.newSource('res/sfx/success.ogg', 'static')
+    keychime = love.audio.newSource('res/sfx/key.wav', 'static'),
+    success = love.audio.newSource('res/sfx/success.ogg', 'static'),
+    tap = love.audio.newSource('res/sfx/tap.wav', 'static'),
 }
 
 return res

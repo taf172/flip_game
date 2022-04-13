@@ -31,7 +31,7 @@ function Level:load()
     self.head:clearStack()
     self.head:push(self.board:getTile(self.startPosition))
     self.keyHud.height = self.board.tileSize*0.75
-    self.keyHud.y = self.board.y - self.keyHud.height*2
+    self.keyHud.y = self.board.y - self.keyHud.height - self.board.spacing*4
     self.keyHud.x = self.board.x
 end
 
@@ -55,6 +55,8 @@ end
 
 function Level:undo()
     if self.cleared then return end
+    self.head:attemptMove(self.head.stack[#self.head.stack - 1])
+    self.currentPosition = self.board:getTilePosition(self.head:top())
 end
 
 function Level:reset()

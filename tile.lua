@@ -34,6 +34,7 @@ function Tile:activate()
     if self.locked then
         self.textColor = res.colors.lightShade
         self.icon = res.icons.lockClosed
+        res.audio.lock:play()
     end
     self.active = true
 end
@@ -42,6 +43,7 @@ function Tile:deactivate()
     if self.locked then
         self.textColor = res.colors.darkShade
         self.icon = res.icons.lockOpen
+        res.audio.unlock:play()
     end
     self.active = false
 end

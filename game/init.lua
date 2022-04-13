@@ -16,12 +16,7 @@ Game.levels = {
 }
 
 Level.onClear = function () Game:onClear() end
-Game.levelSelect.onLevelSelect = function ()
-    if not Game.levelSelect.selectedLevel then return end
-    Game.levelNo = Game.levelSelect.selectedLevel
-    Game:loadLevel()
-    Game.state = Game.inLevel
-end
+Game.levelSelect.onLevelSelect = function () Game:onLevelSelect() end
 
 -- State Management
 function Game:startGame()
@@ -41,6 +36,12 @@ function Game:toLevelSelect()
         end
     end
     self.levelSelect:loadPage()
+end
+
+function Game:onLevelSelect(levelNo)
+    self.levelNo = 10
+    self:loadLevel()
+    self.state = Game.inLevel
 end
 
 function Game:back()

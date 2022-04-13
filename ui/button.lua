@@ -13,7 +13,7 @@ function Button:new(icon, text, callback)
     button.icon = icon
     button.text = text
     button.onPress = callback or function()end
-    button.pressSound = res.audio.lock
+    button.pressSound = res.audio.tap
     button.font = res.fonts.big
     button.roundness = 4
     return button

@@ -44,10 +44,7 @@ function levelSelectMenu:loadPage()
                 button.color = res.colors.darkShade
             end
             button.text = levelNo
-            button.onPress = function ()
-                self.selectedLevel = levelNo
-                self:onLevelSelect()
-            end
+            button.levelNo = levelNo
             levelNo = levelNo + 1
         end
     end
