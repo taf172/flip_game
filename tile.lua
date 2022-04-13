@@ -16,6 +16,7 @@ function Tile:new(x, y)
     tile.font = res.fonts.big
     tile.color = res.colors.darkShade
     tile.textColor = res.colors.lightShade
+    tile.active = true
 
     tile:activate()
     return tile
@@ -29,6 +30,7 @@ function Tile:setLocked()
 end
 
 function Tile:activate()
+    self.icon = nil
     if self.locked then
         self.textColor = res.colors.lightShade
         self.icon = res.icons.lockClosed
@@ -59,11 +61,12 @@ local function getScale(image, width, height)
 end
 
 function Tile:draw()
-    if not self.active then return end
-    love.graphics.setColor(self.color)
-    love.graphics.rectangle(
-        'fill', self.x, self.y, self.width, self.height, self.roundness
-    )
+    if self.active then
+        love.graphics.setColor(self.color)
+        love.graphics.rectangle(
+            'fill', self.x, self.y, self.width, self.height, self.roundness
+        )
+    end
 
     love.graphics.setColor(self.textColor)
     if self.text then
@@ -75,8 +78,10 @@ function Tile:draw()
     end
 
     if self.icon then
-        local sw, sh = getScale(self.icon, self.width, self.height)
-        love.graphics.draw(self.icon, self.x, self.y, 0, sw, sh)
+        local sw, sh = getScale(self.icon, self.width*0.75, self.height*0.75)
+        love.graphics.draw(
+            self.icon, self.x + self.width*0.25/2, self.y + self.height*0.25/2, 0, sw, sh
+        )
     end
 end
 

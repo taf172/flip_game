@@ -15,9 +15,9 @@ function HeadTile:new(keys)
     return head
 end
 
-function HeadTile:hasKey()
+function HeadTile:hasKey(n)
     for _, key in ipairs(self.keys) do
-        if key == #self.stack + 1 then return true end
+        if key == n then return true end
     end
     return false
 end
@@ -34,7 +34,7 @@ function HeadTile:attemptMove(tile)
         return true
     end
 
-    if tile.locked and not self:hasKey() then
+    if tile.locked and not self:hasKey(#self.stack + 1) then
         return false
     end
 
@@ -47,8 +47,12 @@ function HeadTile:attemptMove(tile)
 end
 
 function HeadTile:push(tile)
-    tile:deactivate()
     table.insert(self.stack, tile)
+    if self:hasKey(#self.stack) then
+        tile.icon = res.icons.key
+        tile.textColor = res.colors.darkShade
+    end
+    tile:deactivate()
 end
 
 function HeadTile:pop()
@@ -76,7 +80,10 @@ function HeadTile:update(dt)
         self.width = top.width
         self.height = top.height
     end
-    if self:hasKey() then
+    if self:top() and self:top().locked then
+        self.text = nil
+        self.icon = res.icons.lockOpen
+    elseif self:hasKey(#self.stack) then
         self.text = nil
         self.icon = res.icons.key
     else

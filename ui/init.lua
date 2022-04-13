@@ -18,6 +18,9 @@ ui.buttons = {
     levelSelectButton = Button:new(res.icons.grid),
     settingsButton = Button:new(res.icons.settings),
     shopButton = Button:new(res.icons.cart),
+    gridSize4Button = Button:new(),
+    gridSize5Button = Button:new(),
+    gridSize6Button = Button:new()
 }
 
 ui.buttons.playButton = Button:new()
@@ -40,6 +43,36 @@ ui.mainMenuBar:add(ui.buttons.levelSelectButton)
 ui.mainMenuBar:add(ui.buttons.shopButton)
 ui.mainMenuBar:add(ui.buttons.settingsButton)
 
+ui.gridSizeBar = MenuBar:new()
+ui.gridSizeBar:add(ui.buttons.gridSize4Button)
+ui.gridSizeBar:add(ui.buttons.gridSize5Button)
+ui.gridSizeBar:add(ui.buttons.gridSize6Button)
+ui.buttons.gridSize4Button.text = '4'
+ui.buttons.gridSize5Button.text = '5'
+ui.buttons.gridSize6Button.text = '6'
+ui.buttons.gridSize4Button.showOutline = true
+ui.buttons.gridSize5Button.showOutline = true
+ui.buttons.gridSize6Button.showOutline = true
+--[[
+ui.buttons.gridSize4Button.width = 128
+ui.buttons.gridSize5Button.width = 128
+ui.buttons.gridSize6Button.width = 128
+--]]
+
+ui.levelSelectBars = {}
+for i = 1, 6 do
+    local bar = MenuBar:new()
+    bar.spacing = 8
+
+    for j = 1, 5 do
+        local button = Button:new()
+        button.showOutline = true
+        button.text = 0
+        bar:add(button)
+    end
+    table.insert(ui.levelSelectBars, bar)
+end
+
 function ui:constrain()
     local ww, wh = love.graphics.getDimensions()
 
@@ -48,9 +81,22 @@ function ui:constrain()
     self.buttons.playButton.x = ww/2 - self.buttons.playButton.width/2
     self.buttons.playButton.y = wh/2 - self.buttons.playButton.height/2
 
-    self.levelMenuBar:constrain('top', ui.barRatio)
-    self.puzzleMenuBar:constrain('bottom', ui.barRatio)
+    self.levelMenuBar:constrain('top', self.barRatio)
+    self.levelMenuBar.spacing = 64*3
+    self.levelMenuBar:placeButtons()
+
+    self.puzzleMenuBar:constrain('bottom', self.barRatio)
     self.mainMenuBar:constrain('bottom', 0.15)
+    self.gridSizeBar:constrain('top', self.barRatio*2.5)
+
+    local top = self.levelSelectBars[1]
+    for _, bar in ipairs(self.levelSelectBars) do
+        bar:constrain('top', self.barRatio*4.5)
+    end
+    for i, bar in ipairs(self.levelSelectBars) do
+        bar.y = top.y + (i - 1)*(top.height + top.spacing)
+        bar:placeButtons()
+    end
 end
 
 function ui:getTitleHeight(font)

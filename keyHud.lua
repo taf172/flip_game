@@ -8,7 +8,7 @@ function KeyHud:new(target)
     local hud = setmetatable({}, self)
     hud.icon = res.icons.key
     hud.width = 125
-    hud.height = 50
+    hud.height = 64
     hud.spacing = 16
     hud.x = 0
     hud.y = 0

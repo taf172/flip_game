@@ -28,6 +28,7 @@ end
 function MenuBar:constrain(dir, ratio)
     self.width = love.graphics.getWidth()
     self.buttonSize = self.height
+    self.spacing = (self.width - #self.buttons*self.buttonSize)/(#self.buttons + 5)
     self.x = 0
     if dir == 'top' then
         self.y = love.graphics.getHeight()*ratio

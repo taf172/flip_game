@@ -1,7 +1,7 @@
 local res = require 'res'
 local Button = {}
 
-function Button:new(icon, callback)
+function Button:new(icon, text, callback)
     self.__index = self
 
     local button = setmetatable({}, self)
@@ -11,6 +11,7 @@ function Button:new(icon, callback)
     button.height = 50
     button.color = res.colors.primary
     button.icon = icon
+    button.text = text
     button.onPress = callback or function()end
     button.pressSound = res.audio.lock
     button.font = res.fonts.big

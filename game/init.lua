@@ -13,9 +13,15 @@ Game.levels = {
     Level:new(2, 1),
     Level:new(3, 1),
     Level:new(4, 1),
-    Level:new(5, 1),
-    Level:new(6, 1),
 }
+
+Level.onClear = function () Game:onClear() end
+Game.levelSelect.onLevelSelect = function ()
+    if not Game.levelSelect.selectedLevel then return end
+    Game.levelNo = Game.levelSelect.selectedLevel
+    Game:loadLevel()
+    Game.state = Game.inLevel
+end
 
 -- State Management
 function Game:startGame()
@@ -29,6 +35,12 @@ end
 
 function Game:toLevelSelect()
     self.state = self.levelSelect
+    for i, level in ipairs(self.levels) do
+        if level.completed then
+            self.levelSelect.completedLevels[i] = true
+        end
+    end
+    self.levelSelect:loadPage()
 end
 
 function Game:back()
@@ -45,12 +57,15 @@ function Game:next()
         self.levelNo = self.levelNo + 1
         self:loadLevel()
     end
+    if self.state == self.levelSelect then
+        self.levelSelect:loadPage()
+    end
 end
 
 -- Level Management??
 function Game:getLevel(n)
     while #self.levels < n do
-        table.insert(self.levels, Level:new(6))
+        table.insert(self.levels, Level:new(4, #self.levels))
     end
     return self.levels[n]
 end
@@ -62,12 +77,23 @@ function Game:loadLevel()
     self.inLevel.title = 'No. '..self.levelNo
 end
 
+function Game:onClear()
+    self:next()
+    res.audio.success:play()
+end
+
 -- Love2D callbacks
 function Game:load()
     self.state = self.mainMenu
     self.level = self.levels[1]
     self.levelNo = 1
     self.state = self.mainMenu
+
+    ---[[ Debug stuff
+        self.levels[1].completed = true
+        self.levels[2].completed = true
+        self.levels[3].completed = true
+    --]]
 end
 
 function Game:draw()
