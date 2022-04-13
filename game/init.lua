@@ -16,7 +16,9 @@ Game.levels = {
 }
 
 Level.onClear = function () Game:onClear() end
-Game.levelSelect.onLevelSelect = function () Game:onLevelSelect() end
+Game.levelSelect.onLevelSelect = function (n)
+    Game:onLevelSelect(n)
+end
 
 -- State Management
 function Game:startGame()
@@ -35,11 +37,11 @@ function Game:toLevelSelect()
             self.levelSelect.completedLevels[i] = true
         end
     end
-    self.levelSelect:loadPage()
+    self.levelSelect:loadPage(1)
 end
 
 function Game:onLevelSelect(levelNo)
-    self.levelNo = 10
+    self.levelNo = levelNo
     self:loadLevel()
     self.state = Game.inLevel
 end
@@ -48,6 +50,8 @@ function Game:back()
     if self.state == self.inLevel and self.levelNo > 1 then
         self.levelNo = self.levelNo - 1
         self:loadLevel()
+    elseif self.state == self.levelSelect and self.levelSelect.pageNo > 1 then
+        self.levelSelect:loadPage(self.levelSelect.pageNo - 1)
     else
         self:toMainMenu()
     end
@@ -59,14 +63,14 @@ function Game:next()
         self:loadLevel()
     end
     if self.state == self.levelSelect then
-        self.levelSelect:loadPage()
+        self.levelSelect:loadPage(self.levelSelect.pageNo + 1)
     end
 end
 
 -- Level Management??
 function Game:getLevel(n)
-    while #self.levels < n do
-        table.insert(self.levels, Level:new(4, #self.levels))
+    if not self.levels[n] then
+        self.levels[n] = Level:new(6, n)
     end
     return self.levels[n]
 end

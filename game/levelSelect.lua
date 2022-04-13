@@ -8,9 +8,10 @@ levelSelectMenu.title = 'levels'
 levelSelectMenu.titleHeight = love.graphics.getHeight()*0.1
 levelSelectMenu.buttons = {
     ui.buttons.backButton,
+    ui.buttons.nextButton,
 }
 levelSelectMenu.bars = ui.levelSelectBars
-levelSelectMenu.page = 1
+levelSelectMenu.page = 3
 levelSelectMenu.gridSizeBar = ui.gridSizeBar
 levelSelectMenu.completedLevels = {}
 
@@ -33,9 +34,9 @@ function levelSelectMenu:draw()
     self.gridSizeBar:draw()
 end
 
-function levelSelectMenu:loadPage()
-    self.selectedLevel = nil
-    local levelNo = 1
+function levelSelectMenu:loadPage(n)
+    self.pageNo = n
+    local levelNo = 1 + (self.pageNo - 1)*30
     for _, bar in ipairs(self.bars) do
         for _, button in ipairs(bar.buttons) do
             if self.completedLevels[levelNo] then
@@ -45,6 +46,9 @@ function levelSelectMenu:loadPage()
             end
             button.text = levelNo
             button.levelNo = levelNo
+            function button:onPress()
+                levelSelectMenu.onLevelSelect(button.levelNo)
+            end
             levelNo = levelNo + 1
         end
     end
