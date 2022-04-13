@@ -6,51 +6,46 @@ function Tile:new(x, y)
     local tile = setmetatable({}, self)
     self.__index = self
 
+    tile.render = true
     tile.x = x or 0
     tile.y = y or 0
     tile.width = 64
     tile.height = 64
-    tile.roundness = 6
+    tile.roundness = 2
 
-    tile.openIcon = res.images.openLockIcon
-    tile.lockedIcon = res.images.lockIcon
-
+    tile.font = res.fonts.big
     tile.color = res.colors.darkShade
     tile.textColor = res.colors.lightShade
-    tile.lockedColor = res.colors.darkAccent
-
-    tile.font = love.graphics.getFont()
+    tile.active = true
 
     tile:activate()
     return tile
 end
 
-function Tile:setLock()
-    self.color = self.lockedColor
-    self.icon = self.lockedIcon
+function Tile:setLocked()
+    self.textColor = res.colors.lightShade
+    self.icon = res.icons.lockClosed
+    self.color = res.colors.accent
     self.locked = true
 end
 
 function Tile:activate()
+    self.icon = nil
     if self.locked then
-        res.audio.lockSFX:play()
-        self.icon = self.lockedIcon
         self.textColor = res.colors.lightShade
+        self.icon = res.icons.lockClosed
+        res.audio.lock:play()
     end
     self.active = true
 end
 
 function Tile:deactivate()
     if self.locked then
-        res.audio.unlockSFX:play()
-        self.icon = self.openIcon
         self.textColor = res.colors.darkShade
+        self.icon = res.icons.lockOpen
+        res.audio.unlock:play()
     end
     self.active = false
-end
-
-local function getScale(image, width, height)
-    return width/image:getWidth(), height/image:getHeight()
 end
 
 function Tile:drawConnector(tile)
@@ -59,25 +54,36 @@ function Tile:drawConnector(tile)
     local width = math.abs(self.x - tile.x) + self.width
     local height = math.abs(self.y - tile.y) + self.height
     love.graphics.rectangle(
-        'fill', x - self.width/2, y - self.height/2, width, height, self.roundness
+        'fill', x, y, width, height, self.roundness
     )
 end
 
+local function getScale(image, width, height)
+    return width/image:getWidth(), height/image:getHeight()
+end
+
 function Tile:draw()
-    -- Draw rect
     if self.active then
         love.graphics.setColor(self.color)
         love.graphics.rectangle(
-            'fill', self.x - self.width/2, self.y - self.height/2, self.width, self.height, self.roundness
+            'fill', self.x, self.y, self.width, self.height, self.roundness
         )
     end
 
-    -- Draw icon
+    love.graphics.setColor(self.textColor)
+    if self.text then
+        love.graphics.setFont(self.font)
+        love.graphics.printf(
+            self.text, self.x, self.y + (self.height - self.font:getHeight())/2,
+            self.width, 'center'
+        )
+    end
+
     if self.icon then
-        local iw = self.width - 20
-        local sw, sh = getScale(self.icon, iw, iw)
-        love.graphics.setColor(self.textColor)
-        love.graphics.draw(self.icon, self.x - iw/2, self.y - iw/2, 0, sw, sh)
+        local sw, sh = getScale(self.icon, self.width*0.75, self.height*0.75)
+        love.graphics.draw(
+            self.icon, self.x + self.width*0.25/2, self.y + self.height*0.25/2, 0, sw, sh
+        )
     end
 end
 

@@ -13,25 +13,27 @@ function Board:new(grid)
     board.height = 400
 
     board.tiles = {}
+    board.headTiles = {}
     board.tileSize = 64
-    board.spacing = 6
+    board.spacing = 4
 
     return board
 end
 
-function Board:constrain()
-    --self.tileSize = math.min(self.width/self.grid.cols, self.height/self.grid.rows) - self.spacing
-    self.width = self.grid.cols*(self.tileSize + self.spacing) - self.spacing/2
-    self.height = self.grid.rows*(self.tileSize + self.spacing) - self.spacing/2
+function Board:constrain(widthRatio)
+    self.tileSize = (love.graphics.getWidth() - self.spacing*5)/7
+    self.width = self.grid.cols*(self.tileSize + self.spacing) - self.spacing
+    self.height = self.grid.rows*(self.tileSize + self.spacing) - self.spacing
     self.x = (love.graphics.getWidth() - self.width)/2
     self.y = (love.graphics.getHeight() - self.height)/2
 end
 
+
 function Board:getTileCords(n)
     local gx, gy = self.grid:getPos(n)
     return
-        self.x + gx*(self.tileSize + self.spacing) + (self.tileSize + self.spacing)/2,
-        self.y + gy*(self.tileSize + self.spacing) + (self.tileSize + self.spacing)/2
+        self.x + gx*(self.tileSize + self.spacing),
+        self.y + gy*(self.tileSize + self.spacing)
 end
 
 function Board:spawnTiles()
@@ -41,7 +43,18 @@ function Board:spawnTiles()
     end
 end
 
-function Board:constrainTiles()
+function Board:getTile(n)
+    return self.tiles[n]
+end
+
+function Board:getTilePosition(tile)
+    for i, t in ipairs(self.tiles) do
+        if t == tile then return i end
+    end
+    return nil
+end
+
+function Board:placeTiles()
     for i, tile in ipairs(self.tiles) do
         local x, y = self:getTileCords(i)
         tile.x = x
@@ -51,27 +64,17 @@ function Board:constrainTiles()
     end
 end
 
-function Board:getTile(n)
-    return self.tiles[n]
-end
-
-function Board:setPuzzle(puzzle)
-    self:spawnTiles()
-    self:constrainTiles()
-    for _, lock in ipairs(puzzle.locks) do
-        self:getTile(lock):setLock()
+function Board:lockTiles(locks)
+    for _, lock in ipairs(locks) do
+        self.tiles[lock]:setLocked()
     end
-    return self:getTile(puzzle.start)
 end
 
-function Board:move(dir)
-    --[[
-    local pos = self.headTile.value
-    if dir == 'right' then pos = self.grid:getRight(self.path[#self.path]) end
-    if dir == 'left' then pos = self.grid:getLeft(self.path[#self.path]) end
-    if dir == 'up' then pos = self.grid:getAbove(self.path[#self.path]) end
-    if dir == 'down' then pos = self.grid:getBelow(self.path[#self.path]) end
-    --]]
+function Board:isClear()
+    for _, tile in ipairs(self.tiles) do
+        if tile.active then return false end
+    end
+    return true
 end
 
 function Board:draw()

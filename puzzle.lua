@@ -53,45 +53,10 @@ end
 
 local function genPolymer(grid, iter)
     local poly = getPlow(grid)
-    for i = 1, 1000 do
+    for i = 1, iter do
         backbite(poly, grid)
     end
     return poly
-end
-
-local Puzzle = {}
-
-function Puzzle:new(grid)
-    self.__index = self
-
-    local puzzle = setmetatable({}, Puzzle)
-    puzzle.solution = genPolymer(grid, 10000)
-    puzzle:load()
-    return puzzle
-end
-
-function Puzzle:load()
-    self.start = self.solution[1]
-    self.keys = {}
-    self.locks = {}
-    --[[
-    local rng = {}
-    for i = 1, math.random(3, 6) do
-        local rand = math.random(2, #self.solution - 1)
-        while rng[rand] do
-            rand = math.random(2, #self.solution - 1)
-        end
-        rng[rand] = true
-        table.insert(self.keys, rand)
-    end
-    table.insert(self.keys, #self.solution)
-    table.sort(self.keys)
-    for _, key in pairs(self.keys) do
-        table.insert(self.locks, self.solution[key])
-    end
-    --]]
-    self:genKeys()
-    self:setLocks()
 end
 
 local function gauss (mean, variance)
@@ -106,24 +71,30 @@ local function gauss (mean, variance)
     return mean + r
 end
 
-function Puzzle:genKeys()
-    local n = #self.solution
-    local max = n/2.5
-    local current = 1
+local Puzzle = {}
+function Puzzle:new(grid, seed)
+    self.__index = self
 
-    self.keys = {}
-    while current < n - max do
-        local rng = math.ceil(gauss(max/2, max/2))
-        current = current + rng
-        table.insert(self.keys, current)
-    end
-    table.insert(self.keys, n)
+    local puzzle = setmetatable({}, Puzzle)
+    puzzle.path = genPolymer(grid, 10000)
+    puzzle.seed = seed or 0
+    puzzle.keys = {}
+    puzzle.locks = {}
+    puzzle:genPuzzle()
+    return puzzle
 end
 
-function Puzzle:setLocks()
-    for _, key in pairs(self.keys) do
-        table.insert(self.locks, self.solution[key])
+
+function Puzzle:genPuzzle() -- FIX THIS LOL
+    local randPos = 1 + math.random(5)
+    while randPos < #self.path do
+        table.insert(self.keys, randPos)
+        table.insert(self.locks, self.path[randPos])
+        randPos = randPos + math.random(5)
     end
 end
+
+
+
 
 return Puzzle
