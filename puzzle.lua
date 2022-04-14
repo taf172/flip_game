@@ -78,6 +78,7 @@ function Puzzle:new(grid, seed)
     local puzzle = setmetatable({}, Puzzle)
     puzzle.path = genPolymer(grid, 10000)
     puzzle.seed = seed or 0
+    puzzle.size = grid.rows
     puzzle.keys = {}
     puzzle.locks = {}
     puzzle:genPuzzle()
@@ -89,13 +90,29 @@ local function gaussian (mean, variance)
             math.cos(2 * math.pi * math.random()) + mean
 end
 
+function Puzzle:genStep()
+    local avgGap = 3
+    local var = 1
+    if self.size == 4 then
+        avgGap = 4
+        var = 1
+    elseif self.size == 5 then
+        avgGap = 4
+        var = 0.5
+    elseif self.size == 6 then
+        avgGap = 4
+        var = 0.2
+    end
+    return math.max(1, math.ceil(gaussian(avgGap, var)))
+end
 
-function Puzzle:genPuzzle() -- FIX THIS LOL
-    local randPos = 1 + math.ceil(gaussian(#self.path/6, 2))
+function Puzzle:genPuzzle()
+    math.randomseed(self.seed)
+    local randPos = 1 + self:genStep()
     while randPos < #self.path do
         table.insert(self.keys, randPos)
         table.insert(self.locks, self.path[randPos])
-        randPos = randPos + math.ceil(gaussian(#self.path/6, 2))
+        randPos = randPos + self:genStep()
     end
 end
 
