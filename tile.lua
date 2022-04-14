@@ -1,17 +1,19 @@
 local res = require 'res'
+local tween = require 'tween'
 
 local Tile = {}
 
-function Tile:new(x, y)
+function Tile:new(x, y, delay)
     local tile = setmetatable({}, self)
     self.__index = self
 
     tile.render = true
     tile.x = x or 0
     tile.y = y or 0
-    tile.width = 64
-    tile.height = 64
     tile.roundness = 2
+    tile.size = 64
+    tile.width = tile.size
+    tile.height = tile.size
 
     tile.alpha = 1
     tile.font = res.fonts.big
@@ -19,8 +21,20 @@ function Tile:new(x, y)
     tile.textColor = res.colors.lightShade
     tile.active = true
 
-    tile:activate()
+    tile:fadeIn()
+    tile:growIn()
     return tile
+end
+
+function Tile:fadeIn()
+    self.alpha = 0
+    tween:quadOut(self, 'alpha', 1, 0.3)
+end
+function Tile:growIn()
+    self.width = 0
+    self.height = 0
+    tween:quadOut(self, 'width', self.size, 0.3)
+    tween:quadOut(self, 'height', self.size, 0.3)
 end
 
 function Tile:setLocked()
@@ -50,6 +64,8 @@ function Tile:deactivate()
 end
 
 function Tile:drawConnector(tile)
+    love.graphics.push()
+    love.graphics.translate(-self.height/2, -self.width/2)
     local x = math.min(self.x, tile.x)
     local y = math.min(self.y, tile.y)
     local width = math.abs(self.x - tile.x) + self.width
@@ -57,6 +73,7 @@ function Tile:drawConnector(tile)
     love.graphics.rectangle(
         'fill', x, y, width, height, self.roundness
     )
+    love.graphics.pop()
 end
 
 local function getScale(image, width, height)
@@ -64,12 +81,15 @@ local function getScale(image, width, height)
 end
 
 function Tile:draw()
-
+    love.graphics.push()
+    love.graphics.translate(-self.height/2, -self.width/2)
     if self.active then
-        love.graphics.setColor(self.color[1], self.color[2], self.color[3], self.alpha)
-        love.graphics.rectangle(
-            'fill', self.x, self.y, self.width, self.height, self.roundness
-        )
+        if self.width > 0 and self.height > 0 then
+            love.graphics.setColor(self.color[1], self.color[2], self.color[3], self.alpha)
+            love.graphics.rectangle(
+                'fill', self.x , self.y, self.width, self.height, self.roundness
+            )
+        end
     end
 
     love.graphics.setColor(self.textColor, self.alpha)
@@ -87,6 +107,7 @@ function Tile:draw()
             self.icon, self.x + self.width*0.25/2, self.y + self.height*0.25/2, 0, sw, sh
         )
     end
+    love.graphics.pop()
 end
 
 return Tile

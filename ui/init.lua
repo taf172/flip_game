@@ -1,6 +1,7 @@
 local res = require 'res'
 local Button = require 'ui/button'
 local MenuBar = require 'ui/menuBar'
+local Menu = require 'ui/menu'
 
 local ui = {
     font = res.fonts.big,
@@ -23,6 +24,7 @@ ui.buttons = {
     gridSize6Button = Button:new(),
     tutorialButton = Button:new(),
     bigBackButton = Button:new(),
+    volumeButton = Button:new(res.icons.volumeHigh),
 }
 
 ui.buttons.playButton = Button:new()
@@ -42,7 +44,7 @@ ui.puzzleMenuBar:add(ui.buttons.undoButton)
 ui.mainMenuBar = MenuBar:new()
 ui.mainMenuBar.spacing = 32
 ui.mainMenuBar:add(ui.buttons.levelSelectButton)
-ui.mainMenuBar:add(ui.buttons.shopButton)
+ui.mainMenuBar:add(ui.buttons.volumeButton)
 ui.mainMenuBar:add(ui.buttons.settingsButton)
 
 ui.gridSizeBar = MenuBar:new()
@@ -59,6 +61,10 @@ ui.buttons.tutorialButton.showOutline = true
 ui.buttons.gridSize4Button.showOutline = true
 ui.buttons.gridSize5Button.showOutline = true
 ui.buttons.gridSize6Button.showOutline = true
+
+ui.storeMenu = Menu:new()
+ui.optionsMenu = Menu:new()
+
 
 --[[
 ui.buttons.gridSize4Button.width = 128

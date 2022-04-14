@@ -7,11 +7,11 @@
 local res = require 'res'
 local ui = require 'ui'
 local game = require 'game'
+local tween = require 'tween'
 
 function love.load()
     love.window.setMode(480, 800, {vsync = false, msaa = 8, })
     love.graphics.setBackgroundColor(res.colors.lightShade)
-    love.audio.setVolume(0.25)
 
     -- Set UI buttons
     ui.buttons.playButton.onPress = function () game:startGame(); end
@@ -23,9 +23,9 @@ function love.load()
     ui.buttons.undoButton.onPress = function () game.level:undo() end
     ui.buttons.bigBackButton.onPress = function () game:toMainMenu() end
 
-
     ui:constrain()
     game:load()
+
 end
 
 function love.draw()
@@ -33,6 +33,7 @@ function love.draw()
 end
 
 function love.update(dt)
+    tween:update(dt)
     game:update(dt)
 end
 
@@ -42,4 +43,7 @@ end
 
 function love.keypressed(key)
     game:keypressed(key)
+end
+
+function love.exit()
 end

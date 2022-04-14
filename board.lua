@@ -39,7 +39,7 @@ end
 function Board:spawnTiles()
     self.tiles = {}
     for i = 1, self.grid.rows*self.grid.cols do
-        self.tiles[i] = Tile:new()
+        self.tiles[i] = Tile:new(0, 0, 0)
     end
 end
 
@@ -57,10 +57,9 @@ end
 function Board:placeTiles()
     for i, tile in ipairs(self.tiles) do
         local x, y = self:getTileCords(i)
-        tile.x = x
-        tile.y = y
-        tile.width = self.tileSize
-        tile.height = self.tileSize
+        tile.x = x + self.tileSize/2
+        tile.y = y + self.tileSize/2
+        tile.size = self.tileSize
     end
 end
 

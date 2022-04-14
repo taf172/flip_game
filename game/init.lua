@@ -14,10 +14,12 @@ Game.levels = {
     Level:new(3, 1),
     Level:new(4, 1),
 }
+Game.completedLevels = {}
+Game.levelNo = 1
 
 Level.onClear = function () Game:onClear() end
 Game.levelSelect.onLevelSelect = function (n)
-    Game:onLevelSelect(n)
+    Game:selectLevel(n)
 end
 
 -- State Management
@@ -32,15 +34,15 @@ end
 
 function Game:toLevelSelect()
     self.state = self.levelSelect
-    for i, level in ipairs(self.levels) do
-        if level.completed then
+    for i in pairs(self.completedLevels) do
+        if self.completedLevels[i] then
             self.levelSelect.completedLevels[i] = true
         end
     end
     self.levelSelect:loadPage(1)
 end
 
-function Game:onLevelSelect(levelNo)
+function Game:selectLevel(levelNo)
     self.levelNo = levelNo
     self:loadLevel()
     self.state = Game.inLevel
@@ -83,24 +85,49 @@ function Game:loadLevel()
 end
 
 function Game:onClear()
+    self.completedLevels[self.levelNo] = true
     self:next()
     res.audio.success:play()
 end
 
 -- Love2D callbacks
+function Game:save()
+    local completed = '0'
+    for i in pairs(self.completedLevels) do
+        completed = completed..' '..i
+    end
+    love.filesystem.write('save.txt', self.levelNo..'\n'..completed)
+end
+
 function Game:load()
     res.audio.music:play()
     self.state = self.mainMenu
-    self.level = self.levels[1]
-    self.levelNo = 1
+
+    if not love.filesystem.getInfo('save.txt') then self:save() end
+
+    ---[[
+    local data = {}
+    for line in love.filesystem.lines('save.txt') do
+        table.insert(data, line)
+    end
+    for i in data[2]:gmatch('%w+') do
+        self.completedLevels[tonumber(i)] = true
+    end
+    --]]
+
+    self.levelNo = data[1]
+    self:loadLevel()
     self.state = self.mainMenu
 end
+
+local menu = ui.optionsMenu
 
 function Game:draw()
     self.state:draw()
     if self.state == self.inLevel then
         self.level:draw()
     end
+    menu:draw()
 end
 
 function Game:update(dt)

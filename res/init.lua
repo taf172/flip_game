@@ -12,6 +12,9 @@ res.icons = {
     settings = love.graphics.newImage('res/icons/settings.png'),
     cart = love.graphics.newImage('res/icons/cart.png'),
     grid = love.graphics.newImage('res/icons/grid.png'),
+    volumeHigh = love.graphics.newImage('res/icons/volume_high.png'),
+    volumeLow = love.graphics.newImage('res/icons/volume_low.png'),
+    volumeOff = love.graphics.newImage('res/icons/volume_off.png'),
 }
 
 res.images = {
