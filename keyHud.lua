@@ -16,9 +16,17 @@ function KeyHud:new(target)
 
     hud.color = res.colors.primary
     hud.darkColor = res.colors.darkShade
-    hud.font = res.fonts.big
+    hud.font = res.fonts.medium
 
     return hud
+end
+
+function KeyHud:constrain()
+    self.width = self.height
+    for _, key in ipairs(self.target.keys) do
+        self.width = self.width + self.font:getWidth(key)  + self.spacing
+    end
+    self.x = (love.graphics.getWidth() - self.width)/2
 end
 
 local function getScale(image, width, height)
@@ -26,6 +34,7 @@ local function getScale(image, width, height)
 end
 
 function KeyHud:draw()
+    if #self.target.keys == 0 then return end
     -- Draw Icon
     local sw, sh = getScale(self.icon, self.height, self.height)
     love.graphics.setColor(self.color)

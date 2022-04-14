@@ -7,7 +7,7 @@ local ui = {
     font = res.fonts.big,
     fontHeight = res.fonts.big:getHeight(),
     levelText = '3 - 12',
-    barRatio = 1/20
+    barRatio = 1/25
 }
 
 ui.buttons = {

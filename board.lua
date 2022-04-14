@@ -39,7 +39,8 @@ end
 function Board:spawnTiles()
     self.tiles = {}
     for i = 1, self.grid.rows*self.grid.cols do
-        self.tiles[i] = Tile:new(0, 0, 0)
+        local gx, gy = self.grid:getPos(i)
+        self.tiles[i] = Tile:new(0, 0, 0.01*(gx + gy))
     end
 end
 

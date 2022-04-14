@@ -21,20 +21,21 @@ function Tile:new(x, y, delay)
     tile.textColor = res.colors.lightShade
     tile.active = true
 
-    tile:fadeIn()
-    tile:growIn()
+    tile:fadeIn(delay)
+    tile:growIn(delay)
     return tile
 end
 
-function Tile:fadeIn()
+function Tile:fadeIn(delay)
     self.alpha = 0
-    tween:quadOut(self, 'alpha', 1, 0.3)
+    tween:quadOut(self, 'alpha', 1, 0.25, delay)
 end
-function Tile:growIn()
+function Tile:growIn(delay)
     self.width = 0
     self.height = 0
-    tween:quadOut(self, 'width', self.size, 0.3)
-    tween:quadOut(self, 'height', self.size, 0.3)
+    local r = math.random()/10
+    tween:quadOut(self, 'width', self.size, 0.25, delay)
+    tween:quadOut(self, 'height', self.size, 0.25, delay)
 end
 
 function Tile:setLocked()

@@ -1,3 +1,4 @@
+local res = require 'res'
 local Grid = require 'grid'
 local Board = require 'board'
 local Puzzle = require 'puzzle'
@@ -15,24 +16,26 @@ function Level:new(size, seed)
     level.grid = Grid:new(size, size)
     level.puzzle = Puzzle:new(level.grid, seed)
     level.board = Board:new(level.grid)
-    level.head = HeadTile:new(level.puzzle.keys)
+    level.head = HeadTile:new()
     level.keyHud = KeyHud:new(level.head)
-    level.startPosition = level.puzzle.path[1]
     return level
 end
 
 function Level:load()
-    self.currentPosition = self.startPosition
+    self.currentPosition = self.puzzle.path[1]
     self.cleared = false
     self.board:constrain()
     self.board:spawnTiles()
     self.board:placeTiles()
     self.board:lockTiles(self.puzzle.locks)
+    self.head:growIn()
     self.head:clearStack()
-    self.head:push(self.board:getTile(self.startPosition))
+    self.head:push(self.board:getTile(self.currentPosition))
+    self.head.keys = self.puzzle.keys
     self.keyHud.height = self.board.tileSize*0.75
     self.keyHud.y = self.board.y - self.keyHud.height - self.board.spacing*4
     self.keyHud.x = self.board.x
+    self.keyHud:constrain()
 end
 
 function Level:input(dir)
@@ -61,12 +64,7 @@ end
 
 function Level:reset()
     if self.cleared then return end
-    self.currentPosition = self.startPosition
-    self.board:spawnTiles()
-    self.board:placeTiles()
-    self.board:lockTiles(self.puzzle.locks)
-    self.head:clearStack()
-    self.head:push(self.board:getTile(self.startPosition))
+    self:load()
 end
 
 function Level:draw()
@@ -74,6 +72,15 @@ function Level:draw()
     self.board:draw()
     self.head:draw()
     self.keyHud:draw()
+
+    if self.text then
+        love.graphics.setColor(res.colors.primary)
+        love.graphics.setFont(res.fonts.medium)
+        love.graphics.printf(
+            self.text, 0, self.board.y + self.board.height + self.board.spacing*6,
+            love.graphics.getWidth(), 'center'
+        )
+    end
 end
 
 function Level:update(dt)

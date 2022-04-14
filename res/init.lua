@@ -31,6 +31,7 @@ res.colors = {
 res.fonts = {
     extraBig = love.graphics.newFont('res/Montserrat-Medium.ttf', 64),
     big = love.graphics.newFont('res/Montserrat-Medium.ttf', 42),
+    medium = love.graphics.newFont('res/Montserrat-Medium.ttf', 32),
     small = love.graphics.newFont('res/Montserrat-Medium.ttf', 12),
 }
 

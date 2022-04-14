@@ -9,11 +9,8 @@ Game.inLevel = require 'game/inLevel'
 Game.shopMenu = require 'game/shop'
 Game.settingsMenu = require 'game/settings'
 
-Game.levels = {
-    Level:new(2, 1),
-    Level:new(3, 1),
-    Level:new(4, 1),
-}
+Game.levels = require 'tutorial'
+
 Game.completedLevels = {}
 Game.levelNo = 1
 
@@ -115,7 +112,7 @@ function Game:load()
     end
     --]]
 
-    self.levelNo = data[1]
+    self.levelNo = 1
     self:loadLevel()
     self.state = self.mainMenu
 end
