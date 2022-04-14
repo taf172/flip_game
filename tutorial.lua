@@ -38,5 +38,4 @@ local tutorial = {
     middle,
 }
 
-
 return tutorial

@@ -9,10 +9,9 @@ Game.inLevel = require 'game/inLevel'
 Game.shopMenu = require 'game/shop'
 Game.settingsMenu = require 'game/settings'
 
-Game.levels = require 'tutorial'
-
-Game.completedLevels = {}
+Game.tutorialLevels = require 'tutorial'
 Game.levelNo = 1
+Game.completedLevels = {}
 
 Level.onClear = function () Game:onClear() end
 Game.levelSelect.onLevelSelect = function (n)
@@ -68,10 +67,14 @@ end
 
 -- Level Management??
 function Game:getLevel(n)
-    if not self.levels[n] then
-        self.levels[n] = Level:new(6, n)
+    if n <= #self.tutorialLevels then
+        return self.tutorialLevels[n]
+    elseif n < 20 then
+        return Level:new(4, n)
+    elseif n < 60 then
+        return Level:new(5, n)
     end
-    return self.levels[n]
+    return Level:new(6, n)
 end
 
 function Game:loadLevel()
@@ -79,6 +82,7 @@ function Game:loadLevel()
     self.level:load()
     ui.buttons.playButton.text = 'No. '..self.levelNo
     self.inLevel.title = 'No. '..self.levelNo
+    self:save()
 end
 
 function Game:onClear()
@@ -100,9 +104,8 @@ function Game:load()
     res.audio.music:play()
     self.state = self.mainMenu
 
-    if not love.filesystem.getInfo('save.txt') then self:save() end
-
     ---[[
+    if not love.filesystem.getInfo('save.txt') then love.filesystem.write('save.txt', '1\n0') end
     local data = {}
     for line in love.filesystem.lines('save.txt') do
         table.insert(data, line)
@@ -112,9 +115,10 @@ function Game:load()
     end
     --]]
 
-    self.levelNo = 1
+    self.levelNo = tonumber(data[1])
     self:loadLevel()
     self.state = self.mainMenu
+
 end
 
 local menu = ui.optionsMenu

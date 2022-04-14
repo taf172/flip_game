@@ -12,7 +12,7 @@ levelSelectMenu.buttons = {
     ui.buttons.bigBackButton,
 }
 levelSelectMenu.bars = ui.levelSelectBars
-levelSelectMenu.page = 3
+levelSelectMenu.page = 1
 levelSelectMenu.completedLevels = {}
 
 function levelSelectMenu:load()
