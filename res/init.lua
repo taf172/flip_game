@@ -15,6 +15,7 @@ res.icons = {
     volumeHigh = love.graphics.newImage('res/icons/volume_high.png'),
     volumeLow = love.graphics.newImage('res/icons/volume_low.png'),
     volumeOff = love.graphics.newImage('res/icons/volume_off.png'),
+    drop = love.graphics.newImage('res/icons/drop.png')
 }
 
 res.images = {
