@@ -17,7 +17,7 @@ inLevel.buttons = {
 }
 
 function inLevel:draw()
-    love.graphics.setColor(self.textColor)
+    love.graphics.setColor(res.colors.primary)
     love.graphics.setFont(self.font)
     love.graphics.printf(
         self.title, 0, ui:getTitleHeight(self.font),

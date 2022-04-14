@@ -1,5 +1,6 @@
 local ui = require 'ui'
 local res = require 'res'
+local palette = require 'palette'
 
 local Level = require 'level'
 local Game = {}
@@ -16,6 +17,13 @@ Game.completedLevels = {}
 Level.onClear = function () Game:onClear() end
 Game.levelSelect.onLevelSelect = function (n)
     Game:selectLevel(n)
+end
+
+-- button :)
+local paletteButton = ui.buttons.settingsButton
+paletteButton.onPress = function ()
+    palette:swap()
+    Game:load()
 end
 
 -- State Management

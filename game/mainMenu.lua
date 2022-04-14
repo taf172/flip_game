@@ -32,7 +32,7 @@ volumeButton.onPress = function ()
 end
 
 function mainMenu:draw()
-    love.graphics.setColor(self.textColor)
+    love.graphics.setColor(res.colors.primary)
     love.graphics.setFont(self.font)
     love.graphics.draw(
         res.images.title, (love.graphics.getWidth() - res.images.title:getWidth())/2,

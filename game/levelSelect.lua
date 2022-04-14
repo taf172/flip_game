@@ -3,7 +3,6 @@ local ui = require 'ui'
 
 local levelSelectMenu = {}
 levelSelectMenu.font = res.fonts.big
-levelSelectMenu.textColor = res.colors.primary
 levelSelectMenu.title = 'levels'
 levelSelectMenu.titleHeight = love.graphics.getHeight()*0.1
 levelSelectMenu.buttons = {
@@ -15,11 +14,8 @@ levelSelectMenu.bars = ui.levelSelectBars
 levelSelectMenu.page = 1
 levelSelectMenu.completedLevels = {}
 
-function levelSelectMenu:load()
-end
-
 function levelSelectMenu:draw()
-    love.graphics.setColor(self.textColor)
+    love.graphics.setColor(res.colors.primary)
     love.graphics.setFont(self.font)
     love.graphics.printf(
         self.title, 0, ui:getTitleHeight(self.font),

@@ -40,6 +40,12 @@ function ActiveTween:new(tbl, key, target, duration, delay)
     return tween
 end
 
+function ActiveTween:remove()
+    for i, tween in ipairs(active) do
+        if self == tween then table.remove(active, i) end
+    end
+end
+
 function ActiveTween:update(dt)
     self.time = self.time + dt
     if self.time < 0 then return end
@@ -47,6 +53,7 @@ function ActiveTween:update(dt)
         self.tbl[self.key] = self.fn(self.time, self.start, self.change, self.duration)
     else
         self.tbl[self.key] = self.target
+        self:remove()
     end
 end
 

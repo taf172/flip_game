@@ -8,6 +8,7 @@ local res = require 'res'
 local ui = require 'ui'
 local game = require 'game'
 local tween = require 'tween'
+local palette = require 'palette'
 
 function love.load()
     love.window.setMode(480, 800, {vsync = false, msaa = 8, })
@@ -35,6 +36,7 @@ end
 function love.update(dt)
     tween:update(dt)
     game:update(dt)
+    palette:update(dt)
 end
 
 function love.mousepressed(x, y, button, istouch, presses)
