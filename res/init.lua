@@ -1,24 +1,24 @@
 local res = {}
 
-local iconPath = 'res/x1/'
+local imagePath = 'res/x1/'
 res.icons = {
-    key = love.graphics.newImage(iconPath..'key.png'),
-    lockClosed = love.graphics.newImage(iconPath..'lock_closed.png'),
-    lockOpen = love.graphics.newImage(iconPath..'lock_open.png'),
-    undo = love.graphics.newImage(iconPath..'undo.png'),
-    reset = love.graphics.newImage(iconPath..'refresh.png'),
-    back = love.graphics.newImage(iconPath..'back.png'),
-    forward = love.graphics.newImage(iconPath..'forward.png'),
-    menu = love.graphics.newImage(iconPath..'menu.png'),
-    grid = love.graphics.newImage(iconPath..'grid.png'),
-    volumeHigh = love.graphics.newImage(iconPath..'volume_high.png'),
-    volumeLow = love.graphics.newImage(iconPath..'volume_low.png'),
-    volumeOff = love.graphics.newImage(iconPath..'volume_off.png'),
-    drop = love.graphics.newImage(iconPath..'drop.png')
+    key = love.graphics.newImage(imagePath..'key.png'),
+    lockClosed = love.graphics.newImage(imagePath..'lock_closed.png'),
+    lockOpen = love.graphics.newImage(imagePath..'lock_open.png'),
+    undo = love.graphics.newImage(imagePath..'undo.png'),
+    reset = love.graphics.newImage(imagePath..'refresh.png'),
+    back = love.graphics.newImage(imagePath..'back.png'),
+    forward = love.graphics.newImage(imagePath..'forward.png'),
+    menu = love.graphics.newImage(imagePath..'menu.png'),
+    grid = love.graphics.newImage(imagePath..'grid.png'),
+    volumeHigh = love.graphics.newImage(imagePath..'volume_high.png'),
+    volumeLow = love.graphics.newImage(imagePath..'volume_low.png'),
+    volumeOff = love.graphics.newImage(imagePath..'volume_off.png'),
+    drop = love.graphics.newImage(imagePath..'drop.png')
 }
 
 res.images = {
-    title = love.graphics.newImage(iconPath..'title.png')
+    title = love.graphics.newImage(imagePath..'title.png')
 }
 
 res.colors = {
@@ -29,10 +29,10 @@ res.colors = {
 }
 
 res.fonts = {
-    extraBig = love.graphics.newFont('res/Montserrat-Medium.ttf', 64),
-    big = love.graphics.newFont('res/Montserrat-Medium.ttf', 42),
-    medium = love.graphics.newFont('res/Montserrat-Medium.ttf', 32),
-    small = love.graphics.newFont('res/Montserrat-Medium.ttf', 12),
+    extraBig = love.graphics.newFont('res/Montserrat-Medium.ttf', 48),
+    big = love.graphics.newFont('res/Montserrat-Medium.ttf', 36),
+    medium = love.graphics.newFont('res/Montserrat-Medium.ttf', 36),
+    small = love.graphics.newFont('res/Montserrat-Medium.ttf', 20),
 }
 
 love.audio.setEffect('compressor', {type = 'compressor', enable = true})
