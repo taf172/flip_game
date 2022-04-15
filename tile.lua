@@ -3,7 +3,7 @@ local tween = require 'tween'
 
 local Tile = {}
 
-function Tile:new(x, y, delay)
+function Tile:new(x, y, size, delay)
     local tile = setmetatable({}, self)
     self.__index = self
 
@@ -11,7 +11,7 @@ function Tile:new(x, y, delay)
     tile.x = x or 0
     tile.y = y or 0
     tile.roundness = 2
-    tile.size = 64
+    tile.size = size or 64
     tile.width = tile.size
     tile.height = tile.size
 
