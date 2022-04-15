@@ -39,13 +39,26 @@ function love.update(dt)
     palette:update(dt)
 end
 
-function love.mousepressed(x, y, button, istouch, presses)
-    game:mousepressed(x, y, button, istouch, presses)
-end
-
 function love.keypressed(key)
     game:keypressed(key)
 end
 
-function love.exit()
+local drag = {}
+function love.mousepressed(x, y, button, istouch, presses)
+    game:mousepressed(x, y, button, istouch, presses)
+    drag.x = x
+    drag.y = y
+end
+
+function love.mousereleased(x, y, button, istouch, presses)
+    local dx = x - drag.x
+    local dy = y - drag.y
+    if math.abs(dx) < love.graphics.getWidth()/5 and math.abs(dy) < love.graphics.getWidth()/10 then return end
+    if math.abs(dx) > math.abs(dy) then
+        if dx > 0 then game:keypressed('right') end
+        if dx < 0 then game:keypressed('left') end
+    else
+        if dy < 0 then game:keypressed('up') end
+        if dy > 0 then game:keypressed('down') end
+    end
 end
