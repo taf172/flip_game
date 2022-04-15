@@ -10,7 +10,7 @@ local tween = require 'tween'
 local palette = require 'palette'
 
 function love.load()
-    --love.window.setMode(480, 800, {vsync = false, resizable = true})
+    love.window.setMode(480, 800, {vsync = false, resizable = true})
     love.graphics.setBackgroundColor(res.colors.lightShade)
 
     -- Set UI buttons

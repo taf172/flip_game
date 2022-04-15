@@ -11,11 +11,11 @@ local ui = {
 }
 
 ui.buttons = {
+    resetButton = Button:new(res.icons.reset),
+    undoButton = Button:new(res.icons.undo),
     backButton = Button:new(res.icons.back),
     nextButton = Button:new(res.icons.forward),
     menuButton = Button:new(res.icons.menu),
-    resetButton = Button:new(res.icons.reset),
-    undoButton = Button:new(res.icons.undo),
     levelSelectButton = Button:new(res.icons.grid),
     settingsButton = Button:new(res.icons.drop),
     shopButton = Button:new(res.icons.cart),
