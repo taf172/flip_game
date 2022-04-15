@@ -86,8 +86,8 @@ function HeadTile:update(dt)
     if top then
         self.x = top.x
         self.y = top.y
-        self.width = self.width + (top.width - self.width)*dt*10
-        self.height = self.width
+        self.width = top.width
+        self.height = top.height
     end
     if self:top() and self:top().locked then
         self.text = nil

@@ -10,7 +10,7 @@ local tween = require 'tween'
 local palette = require 'palette'
 
 function love.load()
-    love.window.setMode(480, 800)
+    --love.window.setMode(480, 800, {vsync = false})
     love.graphics.setBackgroundColor(res.colors.lightShade)
 
     -- Set UI buttons
@@ -52,7 +52,7 @@ end
 function love.mousereleased(x, y, button, istouch, presses)
     local dx = x - drag.x
     local dy = y - drag.y
-    --if math.abs(dx) < 4 and math.abs(dy) < 4 then return end
+    if math.abs(dx) < 4 and math.abs(dy) < 4 then return end
     if math.abs(dx) > math.abs(dy) then
         if dx > 0 then game:keypressed('right') end
         if dx < 0 then game:keypressed('left') end

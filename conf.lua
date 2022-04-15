@@ -3,6 +3,7 @@ function love.conf(t)
     t.window.height = 800
     t.window.fullscreen = false
     t.window.vsync = 0
+    t.window.msaa = 8
 
     t.audio.mic = false
 

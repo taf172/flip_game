@@ -33,8 +33,8 @@ end
 function Tile:growIn(delay)
     self.width = 0
     self.height = 0
-    tween:quadOut(self, 'width', self.size, 1, delay)
-    tween:quadOut(self, 'height', self.size, 1, delay)
+    tween:quadOut(self, 'width', self.size, 0.25, delay)
+    tween:quadOut(self, 'height', self.size, 0.25, delay)
 end
 
 function Tile:setLocked()
