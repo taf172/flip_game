@@ -27,7 +27,7 @@ function Button:draw()
     end
 
     if self.icon then
-        love.graphics.draw(self.icon, self.x, self.y, 0, 0.4, 0.4)
+        love.graphics.draw(self.icon, self.x, self.y, 0)
     end
 
     if self.text then

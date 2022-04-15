@@ -1,23 +1,24 @@
 local res = {}
 
+local iconPath = 'res/x1/'
 res.icons = {
-    key = love.graphics.newImage('res/icons/key.png'),
-    lockClosed = love.graphics.newImage('res/icons/lock_closed.png'),
-    lockOpen = love.graphics.newImage('res/icons/lock_open.png'),
-    undo = love.graphics.newImage('res/icons/undo.png'),
-    reset = love.graphics.newImage('res/icons/refresh.png'),
-    back = love.graphics.newImage('res/icons/back.png'),
-    forward = love.graphics.newImage('res/icons/forward.png'),
-    menu = love.graphics.newImage('res/icons/menu.png'),
-    grid = love.graphics.newImage('res/icons/grid.png'),
-    volumeHigh = love.graphics.newImage('res/icons/volume_high.png'),
-    volumeLow = love.graphics.newImage('res/icons/volume_low.png'),
-    volumeOff = love.graphics.newImage('res/icons/volume_off.png'),
-    drop = love.graphics.newImage('res/icons/drop.png')
+    key = love.graphics.newImage(iconPath..'key.png'),
+    lockClosed = love.graphics.newImage(iconPath..'lock_closed.png'),
+    lockOpen = love.graphics.newImage(iconPath..'lock_open.png'),
+    undo = love.graphics.newImage(iconPath..'undo.png'),
+    reset = love.graphics.newImage(iconPath..'refresh.png'),
+    back = love.graphics.newImage(iconPath..'back.png'),
+    forward = love.graphics.newImage(iconPath..'forward.png'),
+    menu = love.graphics.newImage(iconPath..'menu.png'),
+    grid = love.graphics.newImage(iconPath..'grid.png'),
+    volumeHigh = love.graphics.newImage(iconPath..'volume_high.png'),
+    volumeLow = love.graphics.newImage(iconPath..'volume_low.png'),
+    volumeOff = love.graphics.newImage(iconPath..'volume_off.png'),
+    drop = love.graphics.newImage(iconPath..'drop.png')
 }
 
 res.images = {
-    title = love.graphics.newImage('res/title.png')
+    title = love.graphics.newImage(iconPath..'title.png')
 }
 
 res.colors = {
