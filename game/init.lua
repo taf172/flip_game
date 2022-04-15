@@ -144,10 +144,12 @@ function Game:update(dt)
 end
 
 function Game:keypressed(key)
-    if key == 'right' or key == 'd' then self.level:input('right') end
-    if key == 'left' or key == 'a' then self.level:input('left') end
-    if key == 'up' or key == 'w' then self.level:input('up') end
-    if key == 'down' or key == 's' then self.level:input('down') end
+    if self.state == self.inLevel then
+        if key == 'right' or key == 'd' then self.level:input('right') end
+        if key == 'left' or key == 'a' then self.level:input('left') end
+        if key == 'up' or key == 'w' then self.level:input('up') end
+        if key == 'down' or key == 's' then self.level:input('down') end
+    end
 end
 
 function Game:mousepressed(x, y,  button, istouch, presses)
