@@ -17,7 +17,7 @@ function Tile:new(x, y, size, delay)
 
     tile.alpha = 1
     tile.textAlpha = 1
-    tile.font = res.fonts.big
+    tile.font = res.fonts.medium
     tile.color = res.colors.darkShade
     tile.textColor = res.colors.lightShade
     tile.active = true

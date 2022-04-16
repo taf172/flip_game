@@ -78,11 +78,15 @@ res.colors = {
     darkShade = {0.729, 0.82, 0.812},
 }
 
+-- Title number
+-- Key numbers
+-- Tile numbers
+-- Tutorial text
+-- Level select numbers
 res.fonts = {
-    extraBig = love.graphics.newFont('res/Montserrat-Medium.ttf', 36),
-    big = love.graphics.newFont('res/Montserrat-Medium.ttf', 30),
-    medium = love.graphics.newFont('res/Montserrat-Medium.ttf', 20),
-    small = love.graphics.newFont('res/Montserrat-Medium.ttf', 20),
+    big = love.graphics.newFont('res/Montserrat-Medium.ttf', 40),
+    medium = love.graphics.newFont('res/Montserrat-Medium.ttf', 34),
+    small = love.graphics.newFont('res/Montserrat-Medium.ttf', 30),
 }
 
 love.audio.setEffect('compressor', {type = 'compressor', enable = true})

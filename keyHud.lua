@@ -8,20 +8,21 @@ function KeyHud:new(target)
     local hud = setmetatable({}, self)
     hud.icon = res.icons.key
     hud.width = 125
-    hud.height = 64
-    hud.spacing = 16
+    hud.height = 32
+    hud.spacing = 10
     hud.x = 0
     hud.y = 0
     hud.target = target
 
     hud.color = res.colors.primary
     hud.darkColor = res.colors.darkShade
-    hud.font = res.fonts.medium
+    hud.font = res.fonts.small
 
     return hud
 end
 
-function KeyHud:constrain()
+function KeyHud:constrain(obj)
+    self.y = obj.y - self.height*1.5
     self.width = self.height
     for _, key in ipairs(self.target.keys) do
         self.width = self.width + self.font:getWidth(key)  + self.spacing
@@ -33,6 +34,7 @@ function KeyHud:draw()
     if #self.target.keys == 0 then return end
     -- Draw Icon
     love.graphics.setColor(self.color)
+    self.icon:scale(self.height, self.height)
     self.icon:draw(self.x, self.y)
 
     -- Draw numbers

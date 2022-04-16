@@ -32,10 +32,7 @@ function Level:load()
     self.head:clearStack()
     self.head:push(self.board:getTile(self.currentPosition))
     self.head.keys = self.puzzle.keys
-    self.keyHud.height = self.board.tileSize*0.75
-    self.keyHud.y = self.board.y - self.keyHud.height - self.board.spacing*4
-    self.keyHud.x = self.board.x
-    self.keyHud:constrain()
+    self.keyHud:constrain(self.board)
 end
 
 function Level:input(dir)

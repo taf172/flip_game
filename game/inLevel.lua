@@ -4,7 +4,7 @@ local ui = require 'ui'
 local Level = require 'level'
 
 local inLevel = {}
-inLevel.font = res.fonts.big
+inLevel.font = res.fonts.medium
 inLevel.textColor = res.colors.primary
 inLevel.title = 'No. 1'
 inLevel.titleHeight = love.graphics.getHeight()

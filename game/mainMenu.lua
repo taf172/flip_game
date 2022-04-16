@@ -2,7 +2,7 @@ local res = require 'res'
 local ui = require 'ui'
 
 local mainMenu = {}
-mainMenu.font = res.fonts.extraBig
+mainMenu.font = res.fonts.big
 mainMenu.textColor = res.colors.primary
 mainMenu.title = 'pathlock'
 mainMenu.titleHeight = love.graphics.getHeight()*0.15
@@ -12,6 +12,8 @@ mainMenu.buttons = {
     ui.buttons.settingsButton,
     ui.buttons.levelSelectButton,
 }
+
+ui.buttons.playButton.font = res.fonts.big
 
 local volumeButton = ui.buttons.volumeButton
 local volume = 2
