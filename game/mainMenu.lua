@@ -34,10 +34,7 @@ end
 function mainMenu:draw()
     love.graphics.setColor(res.colors.primary)
     love.graphics.setFont(self.font)
-    love.graphics.draw(
-        res.images.title, (love.graphics.getWidth() - res.images.title:getWidth())/2,
-        love.graphics.getHeight()*0.15
-    )
+    res.images.title:draw(love.graphics.getWidth()/2, love.graphics.getHeight()*0.15, 'centered')
     for _, button in ipairs(self.buttons) do
         button:draw()
     end

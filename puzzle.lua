@@ -81,6 +81,7 @@ function Puzzle:new(grid, seed)
     puzzle.size = grid.rows
     puzzle.keys = {}
     puzzle.locks = {}
+    math.randomseed(puzzle.seed)
     puzzle:genPuzzle()
     return puzzle
 end

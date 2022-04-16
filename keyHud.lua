@@ -29,16 +29,11 @@ function KeyHud:constrain()
     self.x = (love.graphics.getWidth() - self.width)/2
 end
 
-local function getScale(image, width, height)
-    return width/image:getWidth(), height/image:getHeight()
-end
-
 function KeyHud:draw()
     if #self.target.keys == 0 then return end
     -- Draw Icon
-    local sw, sh = getScale(self.icon, self.height, self.height)
     love.graphics.setColor(self.color)
-    love.graphics.draw(self.icon, self.x, self.y, 0, sw, sh)
+    self.icon:draw(self.x, self.y)
 
     -- Draw numbers
     local y = self.y + (self.height - self.font:getHeight())/2

@@ -1,24 +1,74 @@
 local res = {}
 
-local imagePath = 'res/x1/'
+
+local imagePath = 'res/images/'
+
+local Image = {}
+function Image:new(name)
+    self.__index = self
+    local img = setmetatable({}, self)
+    img.native = love.graphics.newImage('res/images/'..name)
+
+    local dpi = 1
+    local native = 96
+    if 320/native < dpi then
+        img.image = love.graphics.newImage('res/images/xxhdpi/'..name)
+    elseif 240/native < dpi then
+        img.image = love.graphics.newImage('res/images/xhdpi/'..name)
+    elseif 160/native < dpi then
+        img.image = love.graphics.newImage('res/images/hdpi/'..name)
+    elseif 1 < dpi then
+        img.image = love.graphics.newImage('res/images/mdpi/'..name)
+    else
+        img.image = img.native
+    end
+
+    img.dpiScaleWidth = img.native:getWidth()/img.image:getWidth()
+    img.dpiScaleHeight = img.native:getHeight()/img.image:getHeight()
+    img.scaleWidth = 1
+    img.scaleHeight = 1
+    return img
+end
+function Image:scale(width, height)
+    self.scaleWidth = width/self.native:getWidth()
+    self.scaleHeight = height/self.native:getHeight()
+end
+function Image:draw(x, y, alignment)
+    local sw = self.dpiScaleWidth*self.scaleWidth
+    local sh = self.dpiScaleHeight*self.scaleHeight
+    if alignment == 'centered' then
+        x = x - self.image:getWidth()*sw/2
+        y = y - self.image:getHeight()*sh/2
+    end
+    love.graphics.draw(self.image, x, y, 0, sw, sh)
+end
+--[[
+function Image:getWidth()
+    return self.image:getWidth()
+end
+function Image:getHeight()
+    return self.image:getHeight()
+end
+--]]
+
 res.icons = {
-    key = love.graphics.newImage(imagePath..'key.png'),
-    lockClosed = love.graphics.newImage(imagePath..'lock_closed.png'),
-    lockOpen = love.graphics.newImage(imagePath..'lock_open.png'),
-    undo = love.graphics.newImage(imagePath..'undo.png'),
-    reset = love.graphics.newImage(imagePath..'refresh.png'),
-    back = love.graphics.newImage(imagePath..'back.png'),
-    forward = love.graphics.newImage(imagePath..'forward.png'),
-    menu = love.graphics.newImage(imagePath..'menu.png'),
-    grid = love.graphics.newImage(imagePath..'grid.png'),
-    volumeHigh = love.graphics.newImage(imagePath..'volume_high.png'),
-    volumeLow = love.graphics.newImage(imagePath..'volume_low.png'),
-    volumeOff = love.graphics.newImage(imagePath..'volume_off.png'),
-    drop = love.graphics.newImage(imagePath..'drop.png')
+    key = Image:new('key.png'),
+    lockClosed = Image:new('lock_closed.png'),
+    lockOpen = Image:new('lock_open.png'),
+    undo = Image:new('undo.png'),
+    reset = Image:new('refresh.png'),
+    back = Image:new('back.png'),
+    forward = Image:new('forward.png'),
+    menu = Image:new('menu.png'),
+    grid = Image:new('grid.png'),
+    volumeHigh = Image:new('volume_high.png'),
+    volumeLow = Image:new('volume_low.png'),
+    volumeOff = Image:new('volume_off.png'),
+    drop = Image:new('drop.png')
 }
 
 res.images = {
-    title = love.graphics.newImage(imagePath..'title.png')
+    title = Image:new('title.png')
 }
 
 res.colors = {
@@ -29,9 +79,9 @@ res.colors = {
 }
 
 res.fonts = {
-    extraBig = love.graphics.newFont('res/Montserrat-Medium.ttf', 48),
-    big = love.graphics.newFont('res/Montserrat-Medium.ttf', 36),
-    medium = love.graphics.newFont('res/Montserrat-Medium.ttf', 36),
+    extraBig = love.graphics.newFont('res/Montserrat-Medium.ttf', 36),
+    big = love.graphics.newFont('res/Montserrat-Medium.ttf', 30),
+    medium = love.graphics.newFont('res/Montserrat-Medium.ttf', 20),
     small = love.graphics.newFont('res/Montserrat-Medium.ttf', 20),
 }
 

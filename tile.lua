@@ -10,12 +10,13 @@ function Tile:new(x, y, size, delay)
     tile.render = true
     tile.x = x or 0
     tile.y = y or 0
-    tile.roundness = 2
+    tile.roundness = 4
     tile.size = size or 64
     tile.width = tile.size
     tile.height = tile.size
 
     tile.alpha = 1
+    tile.textAlpha = 1
     tile.font = res.fonts.big
     tile.color = res.colors.darkShade
     tile.textColor = res.colors.lightShade
@@ -26,10 +27,16 @@ function Tile:new(x, y, size, delay)
     return tile
 end
 
+function Tile:textFadeIn(delay)
+    self.textAlpha = 0
+    tween:quadIn(self, 'textAlpha', 1, 0.25, delay)
+end
+
 function Tile:fadeIn(delay)
     self.alpha = 0
     tween:quadOut(self, 'alpha', 1, 0.25, delay)
 end
+
 function Tile:growIn(delay)
     self.width = 0
     self.height = 0
@@ -92,7 +99,7 @@ function Tile:draw()
         end
     end
 
-    love.graphics.setColor(self.textColor, self.alpha)
+    love.graphics.setColor(self.textColor[1], self.textColor[2], self.textColor[3], self.textAlpha)
     if self.text then
         love.graphics.setFont(self.font)
         love.graphics.printf(
@@ -102,10 +109,8 @@ function Tile:draw()
     end
 
     if self.icon then
-        local sw, sh = getScale(self.icon, self.width*0.75, self.height*0.75)
-        love.graphics.draw(
-            self.icon, self.x + self.width*0.25/2, self.y + self.height*0.25/2, 0, sw, sh
-        )
+        self.icon:scale(self.width*0.75, self.height*0.75)
+        self.icon:draw(self.x + self.width/2, self.y + self.height/2, 'centered')
     end
     love.graphics.pop()
 end

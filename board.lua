@@ -21,6 +21,7 @@ function Board:new(grid)
 end
 
 function Board:constrain(widthRatio)
+    self.spacing = love.graphics.getWidth()/150
     self.tileSize = (love.graphics.getWidth() - self.spacing*5)/7
     self.width = self.grid.cols*(self.tileSize + self.spacing) - self.spacing
     self.height = self.grid.rows*(self.tileSize + self.spacing) - self.spacing

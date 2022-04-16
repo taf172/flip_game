@@ -4,6 +4,7 @@ function love.conf(t)
     t.window.fullscreen = false
     t.window.vsync = 0
     t.window.msaa = 8
+    t.window.usedpiscale = true
 
     t.audio.mic = false
 
