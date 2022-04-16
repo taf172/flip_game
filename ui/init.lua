@@ -7,7 +7,7 @@ local ui = {
     font = res.fonts.big,
     fontHeight = res.fonts.big:getHeight(),
     levelText = '3 - 12',
-    barRatio = 1/25
+    barRatio = 1/20
 }
 
 ui.buttons = {
@@ -89,8 +89,8 @@ end
 function ui:constrain()
     local ww, wh = love.graphics.getDimensions()
 
-    self.buttons.playButton.height = ww/3
-    self.buttons.playButton.width = ww/3
+    self.buttons.playButton.height = ww/2.25
+    self.buttons.playButton.width = ww/2.25
     self.buttons.playButton.x = ww/2 - self.buttons.playButton.width/2
     self.buttons.playButton.y = wh/2 - self.buttons.playButton.height/2
 

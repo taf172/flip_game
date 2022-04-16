@@ -40,7 +40,7 @@ function Level:load()
     self.alpha = 0
     self.canvas = nil
     self.fading = false
-    tween:quadOut(self, 'alpha', 1, 1, 0.25)
+    tween:quadOut(self, 'alpha', 1, 0.5, 0.25)
 end
 
 function Level:input(dir)
@@ -75,7 +75,7 @@ function Level:fadeOut()
         self.board:draw()
         self.head:draw()
     love.graphics.setCanvas()
-    tween:quadOut(self, 'alpha', 0, 0.4, 1)
+    tween:quadOut(self, 'alpha', 0, 0.5, 1)
 end
 
 function Level:draw()
