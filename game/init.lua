@@ -126,10 +126,9 @@ function Game:load()
 
     self.levelNo = tonumber(data[1])
     local pal  = tonumber(data[4]) or 1
-    local vol  = tonumber(data[3]) or 0
+    local vol  = tonumber(data[3]) or 1
     self.mainMenu:setVolume(vol)
     self.state = self.mainMenu
-
 end
 
 local menu = ui.optionsMenu
