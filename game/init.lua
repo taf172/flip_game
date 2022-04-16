@@ -24,7 +24,7 @@ end
 local paletteButton = ui.buttons.settingsButton
 paletteButton.onPress = function ()
     palette:swap()
-    Game:load()
+    --Game:load()
 end
 
 -- State Management
@@ -66,6 +66,7 @@ end
 
 function Game:next()
     if self.state == self.inLevel then
+        if self.levelNo == 90 then return end
         self.levelNo = self.levelNo + 1
         self:loadLevel()
     end
@@ -89,8 +90,6 @@ end
 function Game:loadLevel()
     self.level = self:getLevel(self.levelNo)
     self.level:load()
-    ui.buttons.playButton.text = 'No. '..self.levelNo
-    self.inLevel.title = 'No. '..self.levelNo
     self:save()
 end
 
@@ -102,11 +101,13 @@ end
 
 -- Love2D callbacks
 function Game:save()
+    local data = self.levelNo..'\n'
     local completed = '0'
     for i in pairs(self.completedLevels) do
         completed = completed..' '..i
     end
-    love.filesystem.write('save.txt', self.levelNo..'\n'..completed)
+    data = data..completed..'\n'..self.mainMenu:getVolume()..'\n'..palette:getPalette()
+    love.filesystem.write('save.txt', data)
 end
 
 function Game:load()
@@ -125,7 +126,10 @@ function Game:load()
     --]]
 
     self.levelNo = tonumber(data[1])
-    self.levelNo = 1
+    local pal  = tonumber(data[4]) or 1
+    local vol  = tonumber(data[3]) or 0
+    self.mainMenu:setVolume(vol)
+    palette:set(pal)
     self.state = self.mainMenu
 
 end
@@ -141,6 +145,8 @@ function Game:draw()
 end
 
 function Game:update(dt)
+    ui.buttons.playButton.text = 'No. '..self.levelNo
+    self.inLevel.title = 'No. '..self.levelNo
     if self.level then
         self.level:update(dt)
     end

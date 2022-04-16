@@ -23,6 +23,19 @@ palette.choices = {
     },
 }
 
+function palette:set(n)
+    self.current = n
+    local pick = self.choices[self.current]
+    res.colors.primary = pick.primary
+    res.colors.accent = pick.accent
+    res.colors.lightShade = pick.lightShade
+    res.colors.darkShade = pick.darkShade
+end
+
+function palette:getPalette()
+    return self.current
+end
+
 function palette:swap()
     self.current = self.current + 1
     if self.current > #self.choices then self.current = 1 end
