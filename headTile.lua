@@ -49,6 +49,7 @@ function HeadTile:attemptMove(tile)
         return true
     end
 
+    res.audio.blocked:play()
     return false
 end
 

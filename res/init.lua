@@ -1,6 +1,6 @@
 local res = {}
 
-
+--love.graphics.setDefaultFilter('nearest', 'nearest')
 local imagePath = 'res/images/'
 
 local Image = {}

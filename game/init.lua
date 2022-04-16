@@ -24,7 +24,6 @@ end
 local paletteButton = ui.buttons.settingsButton
 paletteButton.onPress = function ()
     palette:swap()
-    --Game:load()
 end
 
 -- State Management
@@ -129,7 +128,6 @@ function Game:load()
     local pal  = tonumber(data[4]) or 1
     local vol  = tonumber(data[3]) or 0
     self.mainMenu:setVolume(vol)
-    palette:set(pal)
     self.state = self.mainMenu
 
 end

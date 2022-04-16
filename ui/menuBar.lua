@@ -54,8 +54,6 @@ function MenuBar:remove(button)
     self:placeButtons()
 end
 
-
-
 function MenuBar:mousepressed(x, y)
     for _, button in ipairs(self.buttons) do
         button:mousepressed(x, y)

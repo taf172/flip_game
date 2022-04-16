@@ -33,6 +33,7 @@ function love.draw()
 end
 
 function love.update(dt)
+    if dt > 1/60 then dt = 1/60 end
     tween:update(dt)
     game:update(dt)
     palette:update(dt)
