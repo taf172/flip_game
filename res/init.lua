@@ -9,8 +9,8 @@ function Image:new(name)
     local img = setmetatable({}, self)
     img.native = love.graphics.newImage('res/images/'..name)
 
-    local dpi = 1
-    local native = love.graphics.getDPIScale()
+    local dpi = love.graphics.getDPIScale()
+    local native = 96
     if 320/native < dpi then
         img.image = love.graphics.newImage('res/images/xxhdpi/'..name)
     elseif 240/native < dpi then
