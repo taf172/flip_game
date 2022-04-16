@@ -29,7 +29,6 @@ function Board:constrain(widthRatio)
     self.y = (love.graphics.getHeight() - self.height)/2
 end
 
-
 function Board:getTileCords(n)
     local gx, gy = self.grid:getPos(n)
     return
@@ -76,6 +75,12 @@ function Board:isClear()
         if tile.active then return false end
     end
     return true
+end
+
+function Board:setAlpha(alpha)
+    for _, tile in pairs(self.tiles) do
+        tile.alpha = alpha
+    end
 end
 
 function Board:draw()

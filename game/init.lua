@@ -1,6 +1,7 @@
 local ui = require 'ui'
 local res = require 'res'
 local palette = require 'palette'
+local tween = require 'tween'
 
 local Level = require 'level'
 local Game = {}
@@ -29,7 +30,7 @@ end
 -- State Management
 function Game:startGame()
     self.state = self.inLevel
-    self.level:load()
+    self:loadLevel()
 end
 
 function Game:toMainMenu()
@@ -95,8 +96,8 @@ end
 
 function Game:onClear()
     self.completedLevels[self.levelNo] = true
+    tween:clear()
     self:next()
-    res.audio.success:play()
 end
 
 -- Love2D callbacks
@@ -124,7 +125,7 @@ function Game:load()
     --]]
 
     self.levelNo = tonumber(data[1])
-    self:loadLevel()
+    self.levelNo = 1
     self.state = self.mainMenu
 
 end
@@ -140,7 +141,9 @@ function Game:draw()
 end
 
 function Game:update(dt)
-    self.level:update(dt)
+    if self.level then
+        self.level:update(dt)
+    end
 end
 
 function Game:keypressed(key)

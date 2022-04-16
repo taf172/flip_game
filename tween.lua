@@ -67,23 +67,9 @@ for k, fn in pairs(ease) do
     end
 end
 
---[[
-function Tween:quadIn(tbl, key, target, time, delay)
-    local tween = ActiveTween:new(tbl, key, target, time, delay)
-    tween.fn = ease.quadIn
-    return tween
+function Tween:clear()
+    active = {}
 end
-function Tween:quadOut(tbl, key, target, time, delay)
-    local tween = ActiveTween:new(tbl, key, target, time, delay)
-    tween.fn = ease.quadOut
-    return tween
-end
-function Tween:quartIn(tbl, key, target, time, delay)
-    local tween = ActiveTween:new(tbl, key, target, time, delay)
-    tween.fn = ease.quartIn
-    return tween
-end
--]]
 
 function Tween:update(dt)
     for _, tween in ipairs(active) do

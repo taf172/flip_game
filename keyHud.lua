@@ -13,7 +13,7 @@ function KeyHud:new(target)
     hud.x = 0
     hud.y = 0
     hud.target = target
-
+    hud.alpha = 1
     hud.color = res.colors.primary
     hud.darkColor = res.colors.darkShade
     hud.font = res.fonts.small
@@ -33,7 +33,9 @@ end
 function KeyHud:draw()
     if #self.target.keys == 0 then return end
     -- Draw Icon
-    love.graphics.setColor(self.color)
+    love.graphics.setColor(
+        self.color[1], self.color[2], self.color[3], self.alpha
+    )
     self.icon:scale(self.height, self.height)
     self.icon:draw(self.x, self.y)
 
@@ -44,9 +46,13 @@ function KeyHud:draw()
 
     for i, key in ipairs(self.target.keys) do
         if key > #self.target.stack then
-            love.graphics.setColor(self.color)
+            love.graphics.setColor(
+                self.color[1], self.color[2], self.color[3], self.alpha
+            )
         else
-            love.graphics.setColor(self.darkColor)
+            love.graphics.setColor(
+                self.darkColor[1], self.darkColor[2], self.darkColor[3], self.alpha
+            )
         end
         love.graphics.print(key, x, y)
         x = x + self.font:getWidth(key) + self.spacing

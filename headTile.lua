@@ -73,7 +73,9 @@ end
 function HeadTile:drawStack()
     ---[[
     if #self.stack == 1 then return end
-    love.graphics.setColor(self.color)
+    love.graphics.setColor(
+        self.color[1], self.color[2], self.color[3], self.alpha
+    )
     for i = 2, #self.stack do
         self.stack[i]:drawConnector(self.stack[i -1])
     end
